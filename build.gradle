@@ -1,0 +1,37 @@
+group 'kr.ac.cau.cse'
+version '0.0.1'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    testCompile "org.testfx:testfx-core:4.0.+"
+    testCompile "org.testfx:testfx-junit:4.0.+"
+}
+
+apply plugin: 'application'
+
+mainClassName = "main.Main"
+
+apply plugin: 'idea'
+
+/*
+// Jemmy Test
+def jemmy = '../jemmy/tools/Jemmy/JemmyFX'
+ant.importBuild("${jemmy}/build.xml") { antTargetName ->
+    'jemmy-' + antTargetName
+}
+
+test.dependsOn 'jemmy-jar'
+
+dependencies {
+	testCompile fileTree(dir: "${jemmy}/dist", include: "*.jar")
+}
+*/
