@@ -25,8 +25,8 @@ public class Controller {
         final Charset charset = StandardCharsets.UTF_8;
 
         File file = fileChooser.showOpenDialog(root.getScene().getWindow());
-        if (file != null) {
-            Path path = Paths.get(file.getPath());
+            if (file != null) {
+                Path path = Paths.get(file.getPath());
             StringBuffer buffer = new StringBuffer();
             try (BufferedReader reader = Files.newBufferedReader(path, charset)) {
                 String line = null;
