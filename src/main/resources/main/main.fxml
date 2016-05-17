@@ -4,8 +4,9 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.Button?>
-<BorderPane fx:id="root" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/null" fx:controller="main.Controller">
+<?import javafx.scene.layout.HBox?>
 
+<BorderPane fx:id="root" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/null" fx:controller="main.Controller">
     <top>
         <GridPane fx:id="mainButtons" alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
             <Button fx:id="rightMerge" text="Copy to Left" GridPane.columnIndex="0"/>
@@ -18,11 +19,11 @@
             <BorderPane fx:id="leftBorder" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/null"
                         GridPane.columnIndex="0">
                 <top>
-                    <GridPane fx:id="leftButtons" alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
-                        <Button fx:id="leftLoad" text="Load" GridPane.columnIndex="0"/>
+                    <HBox fx:id="leftHBox" spacing="10" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <Button fx:id="lefttLoad" text="Load" GridPane.columnIndex="0"/>
                         <Button fx:id="leftEdit" text="Edit" GridPane.columnIndex="1"/>
                         <Button fx:id="leftSave" text="Save" GridPane.columnIndex="2"/>
-                    </GridPane>
+                    </HBox>
                 </top>
                 <center>
                     <TextArea fx:id="leftTextArea">File Content</TextArea>
@@ -31,11 +32,11 @@
             <BorderPane fx:id="rightBorder" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/null"
                         GridPane.columnIndex="1">
                 <top>
-                    <GridPane fx:id="rightButtons" alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
+                    <HBox fx:id="rightHBox" spacing="10" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="3">
                         <Button fx:id="rightLoad" text="Load" GridPane.columnIndex="0"/>
                         <Button fx:id="rightEdit" text="Edit" GridPane.columnIndex="1"/>
                         <Button fx:id="rightSave" text="Save" GridPane.columnIndex="2"/>
-                    </GridPane>
+                    </HBox>
                 </top>
                 <center>
                     <TextArea fx:id="rightTextArea">File Content</TextArea>
