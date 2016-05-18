@@ -8,35 +8,35 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane fx:id="root" prefHeight="400" prefWidth="800" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controller">
-   <children>
-      <ToolBar prefHeight="40.0" prefWidth="800.0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-        <items>
-            <Button fx:id="leftMerge" mnemonicParsing="false" text="Copy to Left" />
-            <Button fx:id="compare" mnemonicParsing="false" text="Compare" />
-            <Button fx:id="rightMerge" mnemonicParsing="false" text="Copy to Right" />
-        </items>
-      </ToolBar>
-       <SplitPane fx:id="splitPane" dividerPositions="0.5" AnchorPane.topAnchor="40" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-           <AnchorPane fx:id="leftText">
-               <ButtonBar prefHeight="40.0" prefWidth="300.0" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-                   <buttons>
-                       <Button fx:id="leftLoad" mnemonicParsing="false" text="Load" textAlignment="CENTER" ButtonBar.buttonData="LEFT" />
-                       <Button fx:id="leftEdit" mnemonicParsing="false" text="Edit" textAlignment="CENTER" ButtonBar.buttonData="CANCEL_CLOSE" />
-                       <Button fx:id="leftSave" mnemonicParsing="false" text="Save" textAlignment="CENTER" ButtonBar.buttonData="RIGHT" />
-                   </buttons>
-               </ButtonBar>
-               <TextArea prefHeight="310.0" prefWidth="360.0" AnchorPane.topAnchor="40" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"/>
-           </AnchorPane>
-           <AnchorPane fx:id="rightText">
-               <ButtonBar prefHeight="40.0" prefWidth="300.0" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-                   <buttons>
-                       <Button fx:id="rightLoad" mnemonicParsing="false" text="Load" ButtonBar.buttonData="LEFT" />
-                       <Button fx:id="rightEdit" mnemonicParsing="false" text="Edit" ButtonBar.buttonData="CANCEL_CLOSE" />
-                       <Button fx:id="rightSave" mnemonicParsing="false" text="Save" ButtonBar.buttonData="RIGHT" />
-                   </buttons>
-               </ButtonBar>
-               <TextArea prefHeight="310.0" prefWidth="360.0" AnchorPane.topAnchor="40" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"/>
-           </AnchorPane>
-       </SplitPane>
-   </children>
+    <children>
+        <ToolBar prefHeight="40.0" prefWidth="800.0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+            <items>
+                <Button fx:id="leftMerge" mnemonicParsing="false" text="Copy to Left" />
+                <Button fx:id="compare" mnemonicParsing="false" text="Compare" />
+                <Button fx:id="rightMerge" mnemonicParsing="false" text="Copy to Right" />
+            </items>
+        </ToolBar>
+        <SplitPane fx:id="splitPane" dividerPositions="0.5" AnchorPane.topAnchor="40" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+            <AnchorPane fx:id="leftText">
+                <ButtonBar prefHeight="40.0" prefWidth="300.0" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+                    <buttons>
+                        <Button fx:id="leftLoad" mnemonicParsing="false" text="Load" textAlignment="CENTER" ButtonBar.buttonData="LEFT" />
+                        <Button fx:id="leftEdit" mnemonicParsing="false" text="Edit" textAlignment="CENTER"/>
+                        <Button fx:id="leftSave" mnemonicParsing="false" text="Save" textAlignment="CENTER" ButtonBar.buttonData="RIGHT" />
+                    </buttons>
+                </ButtonBar>
+                <TextArea fx:id="leftView" prefHeight="310.0" prefWidth="360.0" AnchorPane.topAnchor="40" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"/>
+            </AnchorPane>
+            <AnchorPane fx:id="rightText">
+                <ButtonBar prefHeight="40.0" prefWidth="300.0" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+                    <buttons>
+                        <Button fx:id="rightLoad" mnemonicParsing="false" text="Load" ButtonBar.buttonData="LEFT" />
+                        <Button fx:id="rightEdit" mnemonicParsing="false" text="Edit"/>
+                        <Button fx:id="rightSave" mnemonicParsing="false" text="Save" ButtonBar.buttonData="RIGHT" />
+                    </buttons>
+                </ButtonBar>
+                <TextArea fx:id="rightView" prefHeight="310.0" prefWidth="360.0" AnchorPane.topAnchor="40" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"/>
+            </AnchorPane>
+        </SplitPane>
+    </children>
 </AnchorPane>
