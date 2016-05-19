@@ -14,6 +14,7 @@ repositories {
 dependencies {
     testCompile "org.testfx:testfx-core:4.0.+"
     testCompile "org.testfx:testfx-junit:4.0.+"
+    testCompile group: "org.loadui", name: "testFx", version: "3.1.2"
 }
 
 apply plugin: 'application'
