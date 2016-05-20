@@ -1,6 +1,5 @@
 package main;
 
-import com.sun.org.omg.CORBA.Initializer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,7 +23,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
-public class Controller implements Initializable{
+public class Controller implements Initializable {
     @FXML
     private ListView<AnchorPane> textView;
 
