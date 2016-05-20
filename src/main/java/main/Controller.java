@@ -5,7 +5,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
@@ -28,9 +27,6 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable{
     @FXML
     private ListView<AnchorPane> textView;
-
-    @FXML
-    private Button compare;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
