@@ -7,9 +7,9 @@
     <children>
         <ToolBar prefHeight="40.0" prefWidth="800.0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
             <items>
-                <Button fx:id="leftMerge" mnemonicParsing="false" text="Copy to Left" />
-                <Button fx:id="compare" mnemonicParsing="false" text="Compare" />
-                <Button fx:id="rightMerge" mnemonicParsing="false" text="Copy to Right" />
+                <Button fx:id="leftMerge" disable="true" mnemonicParsing="false" text="Copy to Left" />
+                <Button fx:id="compare" disable="true" mnemonicParsing="false" text="Compare" />
+                <Button fx:id="rightMerge" disable="true" mnemonicParsing="false" text="Copy to Right" />
             </items>
         </ToolBar>
         <SplitPane fx:id="splitPane" dividerPositions="0.5" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="40">
@@ -18,7 +18,7 @@
                     <buttons>
                         <Button fx:id="leftLoad" mnemonicParsing="false" onAction="#LeftLoadBtnAction" text="Load" textAlignment="CENTER" ButtonBar.buttonData="LEFT" />
                         <Button fx:id="leftEdit" mnemonicParsing="false" text="Edit" textAlignment="CENTER" />
-                        <Button fx:id="leftSave" mnemonicParsing="false" text="Save" textAlignment="CENTER" ButtonBar.buttonData="RIGHT" />
+                        <Button fx:id="leftSave" disable="true" mnemonicParsing="false" text="Save" textAlignment="CENTER" ButtonBar.buttonData="RIGHT" />
                     </buttons>
                 </ButtonBar>
                 <CodeArea fx:id="leftView" prefHeight="310.0" prefWidth="360.0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="40" />
@@ -28,7 +28,7 @@
                     <buttons>
                         <Button fx:id="rightLoad" mnemonicParsing="false" onAction="#RightLoadBtnAction" text="Load" ButtonBar.buttonData="LEFT" />
                         <Button fx:id="rightEdit" mnemonicParsing="false" text="Edit" />
-                        <Button fx:id="rightSave" mnemonicParsing="false" text="Save" ButtonBar.buttonData="RIGHT" />
+                        <Button fx:id="rightSave" disable="true" mnemonicParsing="false" text="Save" ButtonBar.buttonData="RIGHT" />
                     </buttons>
                 </ButtonBar>
                 <CodeArea fx:id="rightView" prefHeight="310.0" prefWidth="360.0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="40" />
