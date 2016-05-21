@@ -1,4 +1,4 @@
-﻿It's slow comparing words
+It's slow comparing words
 and characters. Instead,
 WinMerge compares lines.
 Believe it or else.
