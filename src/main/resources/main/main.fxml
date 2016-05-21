@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import org.fxmisc.richtext.CodeArea?>
+<?import org.fxmisc.richtext.InlineCssTextArea?>
 <AnchorPane fx:id="root" prefHeight="400" prefWidth="800" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controller">
     <children>
         <ToolBar prefHeight="40.0" prefWidth="800.0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
@@ -21,7 +21,7 @@
                         <Button fx:id="leftSave" disable="true" mnemonicParsing="false" text="Save" textAlignment="CENTER" ButtonBar.buttonData="RIGHT" />
                     </buttons>
                 </ButtonBar>
-                <CodeArea fx:id="leftView" prefHeight="310.0" prefWidth="360.0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="40" />
+                <InlineCssTextArea fx:id="leftView" prefHeight="310.0" prefWidth="360.0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="40" />
             </AnchorPane>
             <AnchorPane fx:id="rightText">
                 <ButtonBar prefHeight="40.0" prefWidth="300.0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
@@ -31,7 +31,7 @@
                         <Button fx:id="rightSave" disable="true" mnemonicParsing="false" text="Save" ButtonBar.buttonData="RIGHT" />
                     </buttons>
                 </ButtonBar>
-                <CodeArea fx:id="rightView" prefHeight="310.0" prefWidth="360.0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="40" />
+                <InlineCssTextArea fx:id="rightView" prefHeight="310.0" prefWidth="360.0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="40" />
             </AnchorPane>
         </SplitPane>
     </children>

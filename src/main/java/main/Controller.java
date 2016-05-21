@@ -1,16 +1,13 @@
 package main;
 
-import com.sun.org.apache.bcel.internal.classfile.Code;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
-import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.InlineCssTextArea;
 
-import java.awt.datatransfer.FlavorEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -24,16 +21,19 @@ public class Controller implements Initializable {
     @FXML
     private ListView<AnchorPane> textView;
     @FXML
-    private CodeArea leftView, rightView;
+    private InlineCssTextArea leftView, rightView;
 
     @FXML
     private Button leftLoad, rightLoad;
+
+    String ret;
 
     @FXML
     void RightLoadBtnAction(){
         File file = getFile();
         try {
             rightView.replaceText(readFile(file.getPath(), StandardCharsets.UTF_8));
+            rightView.setStyle(0, "-fx-fill: red;");
 
         } catch (IOException e) {
             e.printStackTrace();
