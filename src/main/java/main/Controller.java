@@ -1,5 +1,6 @@
 package main;
 
+import com.sun.org.apache.bcel.internal.classfile.Code;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -7,6 +8,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+import org.fxmisc.richtext.CodeArea;
 
 import java.awt.datatransfer.FlavorEvent;
 import java.io.File;
@@ -22,7 +24,8 @@ public class Controller implements Initializable {
     @FXML
     private ListView<AnchorPane> textView;
     @FXML
-    private TextArea leftView, rightView;
+    private CodeArea leftView, rightView;
+
     @FXML
     private Button leftLoad, rightLoad;
 
@@ -30,7 +33,8 @@ public class Controller implements Initializable {
     void RightLoadBtnAction(){
         File file = getFile();
         try {
-            rightView.setText(readFile(file.getPath(), StandardCharsets.UTF_8));
+            rightView.replaceText(readFile(file.getPath(), StandardCharsets.UTF_8));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -41,7 +45,7 @@ public class Controller implements Initializable {
     void LeftLoadBtnAction(){
         File file = getFile();
         try {
-            leftView.setText(readFile(file.getPath(), StandardCharsets.UTF_8));
+            leftView.replaceText(readFile(file.getPath(), StandardCharsets.UTF_8));
         } catch (IOException e) {
             e.printStackTrace();
         }

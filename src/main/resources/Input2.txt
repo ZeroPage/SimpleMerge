@@ -1,0 +1,3 @@
+﻿It's slow comparing words.
+WinMerge compares lines.
+Believe it or not.

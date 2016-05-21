@@ -5,13 +5,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.LineNumberFactory;
 
 public class Main extends Application {
-
+    private CodeArea codeArea;
     @Override
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("main/main.fxml"));
         Parent root = loader.load();
+
+        codeArea = new CodeArea();
+        codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
+
 
         primaryStage.setTitle("Hello World");
         primaryStage.setMinWidth(600);
