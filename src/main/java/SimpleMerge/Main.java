@@ -1,4 +1,4 @@
-package main;
+package SimpleMerge;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +12,7 @@ public class Main extends Application {
     private CodeArea codeArea;
     @Override
     public void start(Stage primaryStage) throws Exception{
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("main/main.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("SimpleMerge/main.fxml"));
         Parent root = loader.load();
 
         codeArea = new CodeArea();

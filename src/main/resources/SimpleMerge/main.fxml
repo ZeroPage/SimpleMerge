@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import org.fxmisc.richtext.InlineCssTextArea?>
-<AnchorPane fx:id="root" prefHeight="400" prefWidth="800" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controller">
+<AnchorPane fx:id="root" prefHeight="400" prefWidth="800" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SimpleMerge.Controller">
     <children>
         <ToolBar prefHeight="40.0" prefWidth="800.0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
             <items>

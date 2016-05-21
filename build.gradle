@@ -19,7 +19,7 @@ dependencies {
 
 apply plugin: 'application'
 
-mainClassName = "main.Main"
+mainClassName = "SimpleMerge.Main"
 
 apply plugin: 'idea'
 

@@ -1,4 +1,4 @@
-package main.diff;
+package SimpleMerge.diff;
 
 import org.junit.Test;
 

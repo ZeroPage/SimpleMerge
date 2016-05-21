@@ -1,9 +1,7 @@
-package main.diff;
+package SimpleMerge.diff;
 
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Stack;
 
 /**
  * Created by JinGyeong Jeong on 16. 5. 20.
