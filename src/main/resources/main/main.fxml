@@ -16,26 +16,26 @@
                 <Button fx:id="rightMerge" mnemonicParsing="false" text="Copy to Right" />
             </items>
         </ToolBar>
-        <SplitPane fx:id="splitPane" dividerPositions="0.5" AnchorPane.topAnchor="40" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        <SplitPane fx:id="splitPane" dividerPositions="0.5" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="40">
             <AnchorPane fx:id="leftText">
-                <ButtonBar prefHeight="40.0" prefWidth="300.0" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+                <ButtonBar prefHeight="40.0" prefWidth="300.0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
                     <buttons>
-                        <Button fx:id="leftLoad" mnemonicParsing="false" text="Load" textAlignment="CENTER" ButtonBar.buttonData="LEFT" />
-                        <Button fx:id="leftEdit" mnemonicParsing="false" text="Edit" textAlignment="CENTER"/>
+                        <Button fx:id="leftLoad" mnemonicParsing="false" onAction="#LeftLoadBtnAction" text="Load" textAlignment="CENTER" ButtonBar.buttonData="LEFT" />
+                        <Button fx:id="leftEdit" mnemonicParsing="false" text="Edit" textAlignment="CENTER" />
                         <Button fx:id="leftSave" mnemonicParsing="false" text="Save" textAlignment="CENTER" ButtonBar.buttonData="RIGHT" />
                     </buttons>
                 </ButtonBar>
-                <TextArea fx:id="leftView" prefHeight="310.0" prefWidth="360.0" AnchorPane.topAnchor="40" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"/>
+                <TextArea fx:id="leftView" prefHeight="310.0" prefWidth="360.0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="40" />
             </AnchorPane>
             <AnchorPane fx:id="rightText">
-                <ButtonBar prefHeight="40.0" prefWidth="300.0" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+                <ButtonBar prefHeight="40.0" prefWidth="300.0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
                     <buttons>
-                        <Button fx:id="rightLoad" mnemonicParsing="false" text="Load" ButtonBar.buttonData="LEFT" />
-                        <Button fx:id="rightEdit" mnemonicParsing="false" text="Edit"/>
+                        <Button fx:id="rightLoad" mnemonicParsing="false" onAction="#RightLoadBtnAction" text="Load" ButtonBar.buttonData="LEFT" />
+                        <Button fx:id="rightEdit" mnemonicParsing="false" text="Edit" />
                         <Button fx:id="rightSave" mnemonicParsing="false" text="Save" ButtonBar.buttonData="RIGHT" />
                     </buttons>
                 </ButtonBar>
-                <TextArea fx:id="rightView" prefHeight="310.0" prefWidth="360.0" AnchorPane.topAnchor="40" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"/>
+                <TextArea fx:id="rightView" prefHeight="310.0" prefWidth="360.0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="40" />
             </AnchorPane>
         </SplitPane>
     </children>
