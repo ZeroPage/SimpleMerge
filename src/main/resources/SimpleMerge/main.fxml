@@ -3,6 +3,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import org.fxmisc.richtext.InlineCssTextArea?>
+<?import SimpleMerge.control.TextEditorControl?>
+
 <AnchorPane fx:id="root" prefHeight="400" prefWidth="800" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SimpleMerge.Controller">
     <children>
         <ToolBar prefHeight="40.0" prefWidth="800.0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
@@ -12,27 +14,11 @@
                 <Button fx:id="rightMerge" disable="true" mnemonicParsing="false" text="Copy to Right" />
             </items>
         </ToolBar>
-        <SplitPane fx:id="splitPane" dividerPositions="0.5" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="40">
-            <AnchorPane fx:id="leftText">
-                <ButtonBar prefHeight="40.0" prefWidth="300.0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-                    <buttons>
-                        <Button fx:id="leftLoad" mnemonicParsing="false" onAction="#LeftLoadBtnAction" text="Load" textAlignment="CENTER" ButtonBar.buttonData="LEFT" />
-                        <Button fx:id="leftEdit" mnemonicParsing="false" text="Edit" textAlignment="CENTER" />
-                        <Button fx:id="leftSave" disable="true" mnemonicParsing="false" text="Save" textAlignment="CENTER" ButtonBar.buttonData="RIGHT" />
-                    </buttons>
-                </ButtonBar>
-                <InlineCssTextArea fx:id="leftView" prefHeight="310.0" prefWidth="360.0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="40" />
-            </AnchorPane>
-            <AnchorPane fx:id="rightText">
-                <ButtonBar prefHeight="40.0" prefWidth="300.0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-                    <buttons>
-                        <Button fx:id="rightLoad" mnemonicParsing="false" onAction="#RightLoadBtnAction" text="Load" ButtonBar.buttonData="LEFT" />
-                        <Button fx:id="rightEdit" mnemonicParsing="false" text="Edit" />
-                        <Button fx:id="rightSave" disable="true" mnemonicParsing="false" text="Save" ButtonBar.buttonData="RIGHT" />
-                    </buttons>
-                </ButtonBar>
-                <InlineCssTextArea fx:id="rightView" prefHeight="310.0" prefWidth="360.0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="40" />
-            </AnchorPane>
+        <SplitPane fx:id="splitPane" orientation="HORIZONTAL" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="40">
+            <items>
+                <TextEditorControl fx:id="leftTextEditorControl"></TextEditorControl>
+                <TextEditorControl fx:id="rightTextEditorControl"></TextEditorControl>
+            </items>
         </SplitPane>
     </children>
 </AnchorPane>

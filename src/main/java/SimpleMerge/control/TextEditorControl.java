@@ -5,14 +5,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
 /**
  * Created by JinGyeong Jeong on 16. 5. 22.
  */
-public class TextEditorControl extends AnchorPane implements TextEditorController {
+public class TextEditorControl extends VBox implements TextEditorController {
     @FXML
     private Button loadButton, editButton, saveButton;
     @FXML
