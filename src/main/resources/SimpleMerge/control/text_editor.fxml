@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+       <ButtonBar prefHeight="40.0">
+            <buttons>
+                <Button fx:id="load" mnemonicParsing="false" onAction="#onLoadButtonClick" text="Load"></Button>
+                <Button fx:id="edit" mnemonicParsing="false" onAction="#onEditButtonClick" text="Edit"></Button>
+                <Button fx:id="save" mnemonicParsing="false" onAction="#onSaveButtonClick" text="Save"></Button>
+            </buttons>
+        </ButtonBar>
+        <TextArea fx:id="textArea" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="40" />
+    </children>
+</fx:root>
