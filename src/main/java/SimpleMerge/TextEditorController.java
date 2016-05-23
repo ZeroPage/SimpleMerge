@@ -18,24 +18,28 @@ import java.nio.file.Paths;
  */
 public class TextEditorController {
     @FXML
-    private Button loadButton, editButton, saveButton;
+    private Button load, edit, save;
     @FXML
-    private InlineCssTextArea view;
+    private InlineCssTextArea textArea;
 
     @FXML
     public void onLoadButtonClick() {
         File file = getFile();
         try {
-            view.replaceText(readFile(file.getPath(), StandardCharsets.UTF_8));
+            textArea.replaceText(readFile(file.getPath(), StandardCharsets.UTF_8));
+            textArea.setStyle(0, "-fx-fill: red;");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(": onLoadButtonClick()");
+        edit.setDisable(false);
+        //System.out.println(": onLoadButtonClick()");
     }
 
     @FXML
     public void onEditButtonClick() {
-        System.out.println(": onEditButtonClick()");
+        textArea.setDisable(false);
+        edit.setDisable(true);
+        //System.out.println(": onEditButtonClick()");
     }
 
     @FXML
