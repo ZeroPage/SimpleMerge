@@ -2,11 +2,9 @@ package SimpleMerge;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
 import org.fxmisc.richtext.InlineCssTextArea;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -27,14 +25,16 @@ public class TextEditorController {
     @FXML
     public void onLoadButtonClick() {
         File file = getFile();
-        fileName = file.getName();
-        try {
-            textArea.replaceText(readFile(file.getPath(), StandardCharsets.UTF_8));
-            textArea.setStyle(0, "-fx-fill: red;");
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(file != null){
+            fileName = file.getName();
+            try {
+                textArea.replaceText(readFile(file.getPath(), StandardCharsets.UTF_8));
+                textArea.setStyle(0, "-fx-fill: red;");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            edit.setDisable(false);
         }
-        edit.setDisable(false);
         //System.out.println(": onLoadButtonClick()");
     }
 
@@ -47,22 +47,32 @@ public class TextEditorController {
 
     @FXML
     public void onSaveButtonClick() {
-        try{
-
-            FileWriter fw = new FileWriter(fileName == null ? "test.txt" : fileName);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(textArea.getText());
-            bw.close();
-            fw.close();
+        FileChooser fileChooser= new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("txt files (*.txt)", "*.txt"));
+        File file = fileChooser.showSaveDialog(null);
+        if(file != null){
+            try{
+                SaveFile(textArea.getText(), file);
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+            save.setDisable(true);
+            edit.setDisable(false);
         }
-        catch(IOException e){
-            e.printStackTrace();
-        }
-        save.setDisable(true);
-        edit.setDisable(false);
-        System.out.println( ": onSaveButtonClick()");
+        //System.out.println( ": onSaveButtonClick()");
     }
 
+    private void SaveFile(String content, File file){
+        try{
+            FileWriter fileWriter = new FileWriter(file);
+            fileWriter.write(content);
+            fileWriter.close();
+        }
+        catch(IOException io){
+            io.printStackTrace();
+        }
+    }
     private File getFile(){
         FileChooser chooser = new FileChooser();
         chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("txt files (*.txt)", "*.txt"));
