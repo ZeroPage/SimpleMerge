@@ -1,16 +1,17 @@
 package SimpleMerge.diff;
 
+import SimpleMerge.util.Pair;
 import org.junit.Test;
 
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Created by JinGyeong Jeong on 16. 5. 20.
@@ -29,12 +30,14 @@ public class LCSTest {
         List<String> l = readText("multiline-1-A.txt", "\n");
         List<String> r = readText("multiline-1-B.txt", "\n");
 
-        List<String> expected = readText("multiline-1-expected.txt", "\n");
-        List<String> actual = lcs.diff(l, r);
+        List<Pair<Integer>> expected = new ArrayList<>();
+        expected.add(new Pair<Integer>(2, 1));
+
+        List<Pair<Integer>> actual = lcs.diff(l, r);
 
         assertEquals(actual.size(), expected.size());
         for (int i = 0; i < actual.size(); i++) {
-            assertTrue(actual.get(i).equals(expected.get(i)));
+            assertEquals(expected.get(i), actual.get(i));
         }
     }
 }
