@@ -24,6 +24,12 @@ mainClassName = "SimpleMerge.Main"
 
 apply plugin: 'idea'
 
+compileJava {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+    options.incremental = true
+}
+
 /*
 // Jemmy Test
 def jemmy = '../jemmy/tools/Jemmy/JemmyFX'
