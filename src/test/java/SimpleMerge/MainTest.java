@@ -20,7 +20,7 @@ public class MainTest {
     @Test
     public void loadButtonTest(){
         fx.clickOn("#load");
-        
+
     }
     @Test
     public void editButtonTest() {
@@ -34,8 +34,7 @@ public class MainTest {
 
     @Test
     public void editSaveTest(){
-        fx.clickOn("#edit").write("asdf");
-        fx.clickOn("#save");
+
     }
 
     @Test
