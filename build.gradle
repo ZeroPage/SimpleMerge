@@ -2,6 +2,8 @@ group 'kr.ac.cau.cse'
 version '0.0.1'
 
 apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'idea'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -18,28 +20,10 @@ dependencies {
     compile group: 'org.fxmisc.richtext', name: 'richtextfx', version: '0.6.10'
 }
 
-apply plugin: 'application'
-
-mainClassName = "SimpleMerge.Main"
-
-apply plugin: 'idea'
-
 compileJava {
     options.encoding = 'UTF-8'
-    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+    options.compilerArgs << "-Xlint"
     options.incremental = true
 }
 
-/*
-// Jemmy Test
-def jemmy = '../jemmy/tools/Jemmy/JemmyFX'
-ant.importBuild("${jemmy}/build.xml") { antTargetName ->
-    'jemmy-' + antTargetName
-}
-
-test.dependsOn 'jemmy-jar'
-
-dependencies {
-	testCompile fileTree(dir: "${jemmy}/dist", include: "*.jar")
-}
-*/
+mainClassName = "SimpleMerge.Main"
