@@ -40,6 +40,6 @@ public class MainTest {
     @Test
     public void loadEditSaveTest(){
         fx.clickOn("#load");
-        //미완성
+        //TODO : 완성하기
     }
 }
