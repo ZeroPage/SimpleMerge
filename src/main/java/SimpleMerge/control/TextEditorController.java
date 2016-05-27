@@ -13,9 +13,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-/**
- * Created by JinGyeong Jeong on 16. 5. 22.
- */
 public class TextEditorController {
     @FXML
     private Button load, edit, save;
@@ -35,14 +32,12 @@ public class TextEditorController {
             }
             edit.setDisable(false);
         }
-        //System.out.println(": onLoadButtonClick()");
     }
 
     @FXML
     public void onEditButtonClick() {
         textArea.setDisable(false);
         edit.setDisable(true);
-        //System.out.println(": onEditButtonClick()");
     }
 
     @FXML
@@ -60,7 +55,6 @@ public class TextEditorController {
             save.setDisable(true);
             edit.setDisable(false);
         }
-        //System.out.println( ": onSaveButtonClick()");
     }
 
     private void SaveFile(String content, File file){

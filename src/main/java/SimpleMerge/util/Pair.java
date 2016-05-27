@@ -1,8 +1,5 @@
 package SimpleMerge.util;
 
-/**
- * Created by JinGyeong Jeong on 2016-05-24.
- */
 public class Pair<T> {
     public final T first, second;
     public Pair(T first, T second) {
