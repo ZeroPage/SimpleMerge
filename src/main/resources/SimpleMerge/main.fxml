@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import org.fxmisc.richtext.InlineCssTextArea?>
-<?import SimpleMerge.control.TextEditorControl?>
+<?import SimpleMerge.control.EditPanel?>
 
 <AnchorPane fx:id="root" prefHeight="400" prefWidth="800" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SimpleMerge.Controller">
     <children>
@@ -16,8 +16,8 @@
         </ToolBar>
         <SplitPane fx:id="splitPane" orientation="HORIZONTAL" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="40">
             <items>
-                <TextEditorControl fx:id="leftTextEditorControl"></TextEditorControl>
-                <TextEditorControl fx:id="rightTextEditorControl"></TextEditorControl>
+                <EditPanel fx:id="leftTextEditorControl"></EditPanel>
+                <EditPanel fx:id="rightTextEditorControl"></EditPanel>
             </items>
         </SplitPane>
     </children>
