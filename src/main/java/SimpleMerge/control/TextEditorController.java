@@ -1,4 +1,4 @@
-package SimpleMerge;
+package SimpleMerge.control;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
