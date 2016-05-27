@@ -130,4 +130,8 @@ public class EditPanel extends VBox {
         byte[] content = Files.readAllBytes(Paths.get(path));
         return new String(content, encoding);
     }
+
+    public String getText() {
+        return textArea.getText();
+    }
 }
