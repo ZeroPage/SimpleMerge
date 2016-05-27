@@ -16,8 +16,8 @@
         </ToolBar>
         <SplitPane fx:id="splitPane" orientation="HORIZONTAL" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="40">
             <items>
-                <EditPanel fx:id="leftTextEditorControl"></EditPanel>
-                <EditPanel fx:id="rightTextEditorControl"></EditPanel>
+                <EditPanel fx:id="leftEditPanel"></EditPanel>
+                <EditPanel fx:id="rightEditPanel"></EditPanel>
             </items>
         </SplitPane>
     </children>
