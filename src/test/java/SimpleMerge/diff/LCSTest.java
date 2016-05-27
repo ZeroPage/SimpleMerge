@@ -26,7 +26,7 @@ public class LCSTest {
 
     @Test
     public void diffTest() throws Exception {
-        LCS lcs = new LCS();
+        LCS<String> lcs = new LCS<>();
         List<String> l = readText("multiline-1-A.txt", "\n");
         List<String> r = readText("multiline-1-B.txt", "\n");
 

@@ -8,8 +8,8 @@ import java.util.List;
 /**
  * Created by JinGyeong Jeong on 16. 5. 20.
  */
-public class LCS {
-    public List<Pair<Integer>> diff(List<? extends Comparable> l, List<? extends Comparable> r) {
+public class LCS<T extends Comparable<T>> {
+    public List<Pair<Integer>> diff(List<T> l, List<T> r) {
         int[][] length = new int[l.size() + 1][r.size() + 1];
         for (int i = 1; i < l.size() + 1; i++) {
             for (int j = 1; j < r.size() + 1; j++) {
@@ -23,12 +23,12 @@ public class LCS {
         return getDiffList(length, l, r);
     }
 
-    private List<Pair<Integer>> getDiffList(int [][] length, List<? extends Comparable> l, List<? extends Comparable> r) {
+    private List<Pair<Integer>> getDiffList(int [][] length, List<T> l, List<T> r) {
         int i = l.size(), j = r.size();
         List<Pair<Integer>> ret = new ArrayList<>();
         while (i > 0 || j > 0) {
             if (i > 0 && j > 0 && l.get(i-1).equals(r.get(j-1))) {
-                ret.add(new Pair(i-1, j-1));
+                ret.add(new Pair<>(i-1, j-1));
                 i--;
                 j--;
             } else if (j > 0 && (i == 0 || length[i][j - 1] >= length[i - 1][j])) {
