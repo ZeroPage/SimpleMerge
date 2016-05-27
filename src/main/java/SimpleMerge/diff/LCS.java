@@ -27,7 +27,7 @@ public class LCS<T extends Comparable<T>> {
         int i = l.size(), j = r.size();
         List<Pair<Integer>> ret = new ArrayList<>();
         while (i > 0 || j > 0) {
-            if (i > 0 && j > 0 && l.get(i-1).equals(r.get(j-1))) {
+            if (i > 0 && j > 0 && l.get(i-1).compareTo(r.get(j-1)) == 0) {
                 ret.add(new Pair<>(i-1, j-1));
                 i--;
                 j--;
