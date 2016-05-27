@@ -5,9 +5,6 @@ import SimpleMerge.util.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by JinGyeong Jeong on 16. 5. 20.
- */
 public class LCS<T extends Comparable<T>> {
     public List<Pair<Integer>> diff(List<T> l, List<T> r) {
         int[][] length = new int[l.size() + 1][r.size() + 1];

@@ -13,9 +13,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by JinGyeong Jeong on 16. 5. 20.
- */
 public class LCSTest {
     private List<String> readText(String s, String delimiter) throws Exception {
         URL url = this.getClass().getResource(s);
