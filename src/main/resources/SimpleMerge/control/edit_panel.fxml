@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import org.fxmisc.richtext.InlineCssTextArea?>
-<fx:root type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SimpleMerge.control.EditPanelController">
+<fx:root type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml/1">
     <children>
        <ButtonBar prefHeight="40.0">
             <buttons>
