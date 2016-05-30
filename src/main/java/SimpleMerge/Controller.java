@@ -1,6 +1,7 @@
 package SimpleMerge;
 
 import SimpleMerge.control.EditPanel;
+import SimpleMerge.control.EditPanelEventListener;
 import SimpleMerge.diff.LCS;
 import SimpleMerge.util.Pair;
 import javafx.event.ActionEvent;
@@ -9,7 +10,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
-import org.fxmisc.richtext.InlineCssTextArea;
 
 import java.net.URL;
 import java.util.Arrays;
@@ -34,7 +34,7 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        leftEditPanel.setEventListener(new EditPanel.EventListener() {
+        leftEditPanel.setEventListener(new EditPanelEventListener() {
             @Override
             public void onLoad() {
                 leftEditPanelText = leftEditPanel.getText();
@@ -56,7 +56,7 @@ public class Controller implements Initializable {
                 // Not Implemented.
             }
         });
-        rightEditPanel.setEventListener(new EditPanel.EventListener() {
+        rightEditPanel.setEventListener(new EditPanelEventListener() {
             @Override
             public void onLoad() {
                 rightEditPanelText = rightEditPanel.getText();

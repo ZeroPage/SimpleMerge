@@ -16,13 +16,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class EditPanel extends VBox {
-    public interface EventListener {
-        void onLoad();
-        void onSave();
-        void onEdit();
-        void onTextChanged();
-    }
-    private EventListener eventListener;
+
+    private EditPanelEventListener eventListener;
 
     public EditPanel() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("edit_panel.fxml"));
@@ -35,7 +30,7 @@ public class EditPanel extends VBox {
         }
     }
 
-    public void setEventListener(EventListener eventListener) {
+    public void setEventListener(EditPanelEventListener eventListener) {
         this.eventListener = eventListener;
     }
 
