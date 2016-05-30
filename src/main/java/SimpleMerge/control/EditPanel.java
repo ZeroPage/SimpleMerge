@@ -15,24 +15,13 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class EditPanel extends VBox {
+public class EditPanel extends VBox implements SimpleMerge.control.FileChooser {
 
     private EditPanelEventListener eventListener;
-
-    public EditPanel() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("edit_panel.fxml"));
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-        try {
-            fxmlLoader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void setEventListener(EditPanelEventListener eventListener) {
-        this.eventListener = eventListener;
-    }
+    @FXML
+    private Button load, edit, save;
+    @FXML
+    private InlineCssTextArea textArea;
 
     private void emitLoad() {
         if (eventListener == null)
@@ -59,16 +48,9 @@ public class EditPanel extends VBox {
     }
 
     @FXML
-    private Button load, edit, save;
-    @FXML
-    private InlineCssTextArea textArea;
-    private String fileName;
-
-    @FXML
     private void onLoadButtonClick() {
         File file = getFile();
         if(file != null){
-            fileName = file.getName();
             try {
                 textArea.replaceText(readFile(file.getPath(), StandardCharsets.UTF_8));
                 textArea.setStyle(0, "-fx-fill: red;");
@@ -89,9 +71,7 @@ public class EditPanel extends VBox {
 
     @FXML
     private void onSaveButtonClick() {
-        FileChooser fileChooser= new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("txt files (*.txt)", "*.txt"));
-        File file = fileChooser.showSaveDialog(null);
+        File file = getFile();
         if(file != null){
             try{
                 SaveFile(textArea.getText(), file);
@@ -104,6 +84,12 @@ public class EditPanel extends VBox {
             emitSave();
         }
     }
+    @Override
+    public File getFile(){
+        FileChooser chooser = new FileChooser();
+        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("txt files (*.txt)", "*.txt"));
+        return chooser.showOpenDialog(null);
+    }
 
     private void SaveFile(String content, File file){
         try{
@@ -115,15 +101,24 @@ public class EditPanel extends VBox {
             io.printStackTrace();
         }
     }
-    private File getFile(){
-        FileChooser chooser = new FileChooser();
-        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("txt files (*.txt)", "*.txt"));
-        return chooser.showOpenDialog(null);
-
-    }
     private String readFile(String path, Charset encoding)throws IOException {
         byte[] content = Files.readAllBytes(Paths.get(path));
         return new String(content, encoding);
+    }
+
+    public void setEventListener(EditPanelEventListener eventListener) {
+        this.eventListener = eventListener;
+    }
+
+    public EditPanel() {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("edit_panel.fxml"));
+        fxmlLoader.setRoot(this);
+        fxmlLoader.setController(this);
+        try {
+            fxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public String getText() {
