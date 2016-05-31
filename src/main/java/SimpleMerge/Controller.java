@@ -2,6 +2,7 @@ package SimpleMerge;
 
 import SimpleMerge.control.EditPanel;
 import SimpleMerge.control.EditPanelEventListener;
+import SimpleMerge.control.FileSelector;
 import SimpleMerge.diff.LCS;
 import SimpleMerge.util.Pair;
 import javafx.event.ActionEvent;
@@ -10,7 +11,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
@@ -55,6 +58,13 @@ public class Controller implements Initializable {
             public void onTextChanged() {
                 // Not Implemented.
             }
+        }, new FileSelector() {
+            @Override
+            public File getFile() {
+                FileChooser chooser = new FileChooser();
+                chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("txt files (*.txt)", "*.txt"));
+                return chooser.showOpenDialog(null);
+            }
         });
         rightEditPanel.setEventListener(new EditPanelEventListener() {
             @Override
@@ -76,6 +86,13 @@ public class Controller implements Initializable {
             @Override
             public void onTextChanged() {
                 // Not Implemented.
+            }
+        }, new FileSelector() {
+            @Override
+            public File getFile() {
+                FileChooser chooser = new FileChooser();
+                chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("txt files (*.txt)", "*.txt"));
+                return chooser.showOpenDialog(null);
             }
         });
     }

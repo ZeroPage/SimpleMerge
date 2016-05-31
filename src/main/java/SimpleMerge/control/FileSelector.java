@@ -5,6 +5,6 @@ import java.io.File;
 /**
  * Created by RedChiken on 2016-05-30.
  */
-public interface FileChooser {
+public interface FileSelector {
     File getFile();
 }

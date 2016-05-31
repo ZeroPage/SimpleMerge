@@ -15,9 +15,11 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class EditPanel extends VBox implements SimpleMerge.control.FileChooser {
+public class EditPanel extends VBox{
 
     private EditPanelEventListener eventListener;
+    private FileSelector selector;
+    private String fileName = null;
     @FXML
     private Button load, edit, save;
     @FXML
@@ -49,8 +51,9 @@ public class EditPanel extends VBox implements SimpleMerge.control.FileChooser {
 
     @FXML
     private void onLoadButtonClick() {
-        File file = getFile();
+        File file = selector.getFile();
         if(file != null){
+            fileName = file.getName();
             try {
                 textArea.replaceText(readFile(file.getPath(), StandardCharsets.UTF_8));
                 textArea.setStyle(0, "-fx-fill: red;");
@@ -71,8 +74,8 @@ public class EditPanel extends VBox implements SimpleMerge.control.FileChooser {
 
     @FXML
     private void onSaveButtonClick() {
-        File file = getFile();
-        if(file != null){
+        File file = selector.getFile();
+        if(fileName != null || file != null){
             try{
                 SaveFile(textArea.getText(), file);
             }
@@ -83,13 +86,16 @@ public class EditPanel extends VBox implements SimpleMerge.control.FileChooser {
             edit.setDisable(false);
             emitSave();
         }
+        else{
+            SaveFile(fileName, file);
+        }
     }
-    @Override
-    public File getFile(){
-        FileChooser chooser = new FileChooser();
-        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("txt files (*.txt)", "*.txt"));
-        return chooser.showOpenDialog(null);
-    }
+
+//    public File getFile(){
+//        FileChooser chooser = new FileChooser();
+//        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("txt files (*.txt)", "*.txt"));
+//        return chooser.showOpenDialog(null);
+//    }
 
     private void SaveFile(String content, File file){
         try{
@@ -106,8 +112,9 @@ public class EditPanel extends VBox implements SimpleMerge.control.FileChooser {
         return new String(content, encoding);
     }
 
-    public void setEventListener(EditPanelEventListener eventListener) {
+    public void setEventListener(EditPanelEventListener eventListener, FileSelector selector) {
         this.eventListener = eventListener;
+        this.selector = selector;
     }
 
     public EditPanel() {
