@@ -1,5 +1,6 @@
 package SimpleMerge.control;
 
+import SimpleMerge.util.FileHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -55,7 +56,7 @@ public class EditPanel extends VBox{
         if(file != null){
             fileName = file.getName();
             try {
-                textArea.replaceText(readFile(file.getPath(), StandardCharsets.UTF_8));
+                textArea.replaceText(FileHelper.load(file));
                 textArea.setStyle(0, "-fx-fill: red;");
             } catch (IOException e) {
                 e.printStackTrace();
@@ -77,7 +78,7 @@ public class EditPanel extends VBox{
         File file = selector.getFile();
         if(fileName != null || file != null){
             try{
-                SaveFile(textArea.getText(), file);
+                FileHelper.save(file, textArea.getText());
             }
             catch(Exception e){
                 e.printStackTrace();
@@ -87,29 +88,12 @@ public class EditPanel extends VBox{
             emitSave();
         }
         else{
-            SaveFile(fileName, file);
+            try {
+                FileHelper.save(file, fileName);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-    }
-
-//    public File getFile(){
-//        FileChooser chooser = new FileChooser();
-//        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("txt files (*.txt)", "*.txt"));
-//        return chooser.showOpenDialog(null);
-//    }
-
-    private void SaveFile(String content, File file){
-        try{
-            FileWriter fileWriter = new FileWriter(file);
-            fileWriter.write(content);
-            fileWriter.close();
-        }
-        catch(IOException io){
-            io.printStackTrace();
-        }
-    }
-    private String readFile(String path, Charset encoding)throws IOException {
-        byte[] content = Files.readAllBytes(Paths.get(path));
-        return new String(content, encoding);
     }
 
     public void setEventListener(EditPanelEventListener eventListener, FileSelector selector) {
