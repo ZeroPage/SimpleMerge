@@ -5,16 +5,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 import org.fxmisc.richtext.InlineCssTextArea;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class EditPanel extends VBox{
 
