@@ -58,7 +58,8 @@ public class Controller implements Initializable {
             public void onTextChanged() {
                 // Not Implemented.
             }
-        }, new FileSelector() {
+        });
+        leftEditPanel.setFileSelector(new FileSelector() {
             @Override
             public File getFile() {
                 FileChooser chooser = new FileChooser();
@@ -87,7 +88,8 @@ public class Controller implements Initializable {
             public void onTextChanged() {
                 // Not Implemented.
             }
-        }, new FileSelector() {
+        });
+        rightEditPanel.setFileSelector(new FileSelector() {
             @Override
             public File getFile() {
                 FileChooser chooser = new FileChooser();

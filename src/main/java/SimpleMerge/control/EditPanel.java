@@ -96,8 +96,11 @@ public class EditPanel extends VBox{
         }
     }
 
-    public void setEventListener(EditPanelEventListener eventListener, FileSelector selector) {
+    public void setEventListener(EditPanelEventListener eventListener) {
         this.eventListener = eventListener;
+    }
+
+    public void setFileSelector(FileSelector selector) {
         this.selector = selector;
     }
 
