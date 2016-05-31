@@ -3,6 +3,7 @@ package SimpleMerge.diff;
 import SimpleMerge.util.Pair;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class LCS<T extends Comparable<T>> {
@@ -34,6 +35,7 @@ public class LCS<T extends Comparable<T>> {
                 i--;
             }
         }
+        Collections.reverse(ret);
         return ret;
     }
 }
