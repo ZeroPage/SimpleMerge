@@ -61,7 +61,7 @@ public class EditPanelTest {
     }
 
     @Test
-    public void SimpleTest() {
+    public void LoadTest() {
         fx.clickOn("#load");
     }
 }
