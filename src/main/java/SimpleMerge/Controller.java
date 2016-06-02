@@ -3,7 +3,7 @@ package SimpleMerge;
 import SimpleMerge.control.EditPanel;
 import SimpleMerge.control.EditPanelEventListener;
 import SimpleMerge.control.FileSelector;
-import SimpleMerge.diff.LCS;
+import SimpleMerge.diff.Diff;
 import SimpleMerge.util.Pair;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -100,10 +100,10 @@ public class Controller implements Initializable {
     }
 
     public void compare(ActionEvent actionEvent) {
-        LCS<String> lcs = new LCS<>();
+        Diff diff = new Diff<String>();
         List<String> l = Arrays.asList(leftEditPanelText.split("\n"));
         List<String> r = Arrays.asList(rightEditPanelText.split("\n"));
-        List<Pair<Integer>> commonIndexes = lcs.diff(l, r);
+        List<Pair<Integer>> commonIndexes = diff.compare(l, r);
 
         int leftLastCommonLine, rightLastCommonLine;
         leftLastCommonLine = rightLastCommonLine = -1;

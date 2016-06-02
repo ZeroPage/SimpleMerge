@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class LCS<T extends Comparable<T>> {
+public class LCS<T extends Comparable<T>> implements Diff.Algorithm<T> {
+    @Override
     public List<Pair<Integer>> diff(List<T> l, List<T> r) {
         int[][] length = new int[l.size() + 1][r.size() + 1];
         for (int i = 1; i < l.size() + 1; i++) {
