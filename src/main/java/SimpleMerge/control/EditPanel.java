@@ -128,10 +128,13 @@ public class EditPanel extends VBox{
     }
 
     private void resetStyle() {
-        // TODO:
+        for (int i = 0; i < textArea.getText().split("\n").length; i++) {
+            textArea.setStyle(i, "fx-fill: black");
+        }
     }
 
     public void setDiffBlock(List<Pair<Integer>> diffBlocks) {
+        resetStyle();
         this.diffBlocks = diffBlocks;
         for (Pair<Integer> block : diffBlocks) {
             setAsDiff(block.first, block.second);
