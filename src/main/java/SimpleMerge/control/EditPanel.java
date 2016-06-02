@@ -1,6 +1,7 @@
 package SimpleMerge.control;
 
 import SimpleMerge.util.FileHelper;
+import SimpleMerge.util.Pair;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -9,6 +10,7 @@ import org.fxmisc.richtext.InlineCssTextArea;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class EditPanel extends VBox{
 
@@ -19,6 +21,8 @@ public class EditPanel extends VBox{
     private Button load, edit, save;
     @FXML
     private InlineCssTextArea textArea;
+
+    private List<Pair<Integer>> diffBlocks;
 
     private void emitLoad() {
         if (eventListener == null)
@@ -125,5 +129,12 @@ public class EditPanel extends VBox{
 
     private void resetStyle() {
         // TODO:
+    }
+
+    public void setDiffBlock(List<Pair<Integer>> diffBlocks) {
+        this.diffBlocks = diffBlocks;
+        for (Pair<Integer> block : diffBlocks) {
+            setAsDiff(block.first, block.second);
+        }
     }
 }

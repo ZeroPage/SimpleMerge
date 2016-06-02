@@ -100,23 +100,12 @@ public class Controller implements Initializable {
     }
 
     public void compare(ActionEvent actionEvent) {
-        Diff diff = new Diff<String>();
         List<String> l = Arrays.asList(leftEditPanelText.split("\n"));
         List<String> r = Arrays.asList(rightEditPanelText.split("\n"));
-        List<Pair<Integer>> commonIndexes = diff.compare(l, r);
-
-        int leftLastCommonLine, rightLastCommonLine;
-        leftLastCommonLine = rightLastCommonLine = -1;
-        for (Pair<Integer> pair : commonIndexes) {
-            System.out.println("Common index (" + pair.first + "," + pair.second + "): " + l.get(pair.first));
-            leftEditPanel.setAsDiff(leftLastCommonLine + 1, pair.first - 1);
-            rightEditPanel.setAsDiff(rightLastCommonLine + 1, pair.second - 1);
-            leftLastCommonLine = pair.first;
-            rightLastCommonLine = pair.second;
-        }
-
-        int leftLastLine = l.size() - 1, rightLastLine = r.size() - 1;
-        leftEditPanel.setAsDiff(leftLastCommonLine + 1, leftLastLine);
-        rightEditPanel.setAsDiff(rightLastCommonLine + 1, rightLastLine);
+        Diff<String> diff = new Diff<>();
+        diff.compare(l, r);
+        Pair<List<Pair<Integer>>> diffBlockPair = diff.getDiffBlocks();
+        leftEditPanel.setDiffBlock(diffBlockPair.first);
+        rightEditPanel.setDiffBlock(diffBlockPair.second);
     }
 }
