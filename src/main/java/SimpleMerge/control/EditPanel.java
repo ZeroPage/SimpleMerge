@@ -51,7 +51,7 @@ public class EditPanel extends VBox{
             fileName = file.getName();
             try {
                 textArea.replaceText(FileHelper.load(file));
-                textArea.setStyle(0, "-fx-fill: red;");
+                resetStyle();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -111,5 +111,19 @@ public class EditPanel extends VBox{
 
     public String getText() {
         return textArea.getText();
+    }
+
+    public void setAsDiff(int from, int to) {
+        for (int i = from; i <= to; i++) {
+            setAsDiff(i);
+        }
+    }
+
+    private void setAsDiff(int index) {
+        textArea.setStyle(index, "-fx-fill: yellow");
+    }
+
+    private void resetStyle() {
+        // TODO:
     }
 }

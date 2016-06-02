@@ -100,15 +100,23 @@ public class Controller implements Initializable {
     }
 
     public void compare(ActionEvent actionEvent) {
-        // Not Implemented.
         LCS<String> lcs = new LCS<>();
         List<String> l = Arrays.asList(leftEditPanelText.split("\n"));
         List<String> r = Arrays.asList(rightEditPanelText.split("\n"));
         List<Pair<Integer>> commonIndexes = lcs.diff(l, r);
 
-        for (int i=0; i<commonIndexes.size(); i++) {
-            Pair<Integer> pair = commonIndexes.get(i);
+        int leftLastCommonLine, rightLastCommonLine;
+        leftLastCommonLine = rightLastCommonLine = -1;
+        for (Pair<Integer> pair : commonIndexes) {
             System.out.println("Common index (" + pair.first + "," + pair.second + "): " + l.get(pair.first));
+            leftEditPanel.setAsDiff(leftLastCommonLine + 1, pair.first - 1);
+            rightEditPanel.setAsDiff(rightLastCommonLine + 1, pair.second - 1);
+            leftLastCommonLine = pair.first;
+            rightLastCommonLine = pair.second;
         }
+
+        int leftLastLine = l.size() - 1, rightLastLine = r.size() - 1;
+        leftEditPanel.setAsDiff(leftLastCommonLine + 1, leftLastLine);
+        rightEditPanel.setAsDiff(rightLastCommonLine + 1, rightLastLine);
     }
 }
