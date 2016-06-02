@@ -1,6 +1,7 @@
 package SimpleMerge.control;
 
 import javafx.application.Platform;
+import org.fxmisc.richtext.InlineCssTextArea;
 import org.junit.*;
 import org.junit.rules.ExternalResource;
 import org.testfx.api.FxRobot;
@@ -10,6 +11,7 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.util.concurrent.TimeoutException;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -62,6 +64,14 @@ public class EditPanelTest {
 
     @Test
     public void LoadTest() {
+        String s = "It's slow comparing words\n" +
+                "and characters. Instead,\n" +
+                "WinMerge compares lines.\n" +
+                "Believe it or else.";
         fx.clickOn("#load");
+        InlineCssTextArea textArea = fx.lookup("#textArea").query();
+        System.out.println(fx.lookup("#textArea"));
+
+        assertEquals(s, textArea.getText());
     }
 }
