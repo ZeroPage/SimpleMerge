@@ -27,7 +27,7 @@ public class Controller implements Initializable {
     private EditPanel leftEditPanel, rightEditPanel;
 
     @FXML
-    private Button compare;
+    private Button compare, leftMerge, rightMerge;
 
     private String leftEditPanelText, rightEditPanelText;
 
@@ -105,7 +105,36 @@ public class Controller implements Initializable {
         Diff<String> diff = new Diff<>();
         diff.compare(l, r);
         Pair<List<Pair<Integer>>> diffBlockPair = diff.getDiffBlocks();
+        if (diffBlockPair.first.size() == 0) {
+            // TODO: notify it's identical.
+            System.out.println("No diff blocks!");
+            return;
+        }
         leftEditPanel.setDiffBlock(diffBlockPair.first);
         rightEditPanel.setDiffBlock(diffBlockPair.second);
+        leftMerge.setDisable(false);
+        rightMerge.setDisable(false);
+    }
+
+    public void copyToLeft(ActionEvent actionEvent) {
+        merge(rightEditPanel, leftEditPanel);
+    }
+
+    public void copyToRight(ActionEvent actionEvent) {
+        merge(leftEditPanel, rightEditPanel);
+    }
+
+    private void merge(EditPanel from, EditPanel to) {
+        to.replaceFocusedText(from.getFocusedText());
+        if (!(to.moveFocusToNext() & from.moveFocusToNext())) {
+           finishMerge();
+        }
+    }
+
+    private void finishMerge() {
+        leftMerge.setDisable(true);
+        leftEditPanel.unfocus();
+        rightMerge.setDisable(true);
+        rightEditPanel.unfocus();
     }
 }
