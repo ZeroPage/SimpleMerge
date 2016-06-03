@@ -49,28 +49,16 @@ public class Diff<T extends Comparable<T>> {
 
         int lastLineIndex1 = -1, lastLineIndex2 = -1;
         for (Pair<Integer> pair : commonLineIndexes) {
-            blocks1.add(new Block(lastLineIndex1 + 1, pair.first - 1));
-            blocks2.add(new Block(lastLineIndex2 + 1, pair.second - 1));
+            if (lastLineIndex1 + 1 != pair.first || lastLineIndex2 + 1 != pair.second) {
+                blocks1.add(new Block(lastLineIndex1 + 1, pair.first));
+                blocks2.add(new Block(lastLineIndex2 + 1, pair.second));
+            }
             lastLineIndex1 = pair.first;
             lastLineIndex2 = pair.second;
         }
-        blocks1.add(new Block(lastLineIndex1 + 1, list1.size() - 1));
-        blocks2.add(new Block(lastLineIndex2 + 1, list2.size() - 1));
-
-        Predicate<Block> isInvalidBlock = new Predicate<Block>() {
-            @Override
-            public boolean test(Block block) {
-                return block.start() > block.end();
-            }
-        };
-        blocks1.removeIf(isInvalidBlock);
-        blocks2.removeIf(isInvalidBlock);
-
-        for (Block block : blocks1) {
-            System.out.println("block1 : " + block.start() + ", " + block.end());
-        }
-        for (Block block : blocks2) {
-            System.out.println("block2 : " + block.start() + ", " + block.end());
+        if (lastLineIndex1 + 1 != list1.size() || lastLineIndex2 + 1 != list2.size()) {
+            blocks1.add(new Block(lastLineIndex1 + 1, list1.size()));
+            blocks2.add(new Block(lastLineIndex2 + 1, list2.size()));
         }
 
         diffBlocksPair = new Pair<>(blocks1, blocks2);

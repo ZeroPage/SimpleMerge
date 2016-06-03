@@ -123,7 +123,7 @@ public class EditPanel extends VBox implements Initializable{
     }
 
     private void setAsDiff(Block block) {
-        for (int i = block.start(); i <= block.end(); i++) {
+        for (int i = block.start(); i < block.end(); i++) {
             textArea.setStyle(i, "-fx-fill: red");
         }
     }
@@ -134,7 +134,7 @@ public class EditPanel extends VBox implements Initializable{
         for (int i = 0; i < block.start(); i++) {
             start += splitted[i].length() + 1;
         }
-        for (int i = 0 ; i <= block.end(); i++) {
+        for (int i = 0 ; i < block.end(); i++) {
             end += splitted[i].length() + 1;
         }
         textArea.selectRange(start, end);
@@ -145,7 +145,7 @@ public class EditPanel extends VBox implements Initializable{
     }
 
     private void setAsMerged(Block block) {
-        for (int i = block.start(); i <= block.end(); i++) {
+        for (int i = block.start(); i < block.end(); i++) {
             textArea.setStyle(i, "-fx-fill: green");
         }
     }
@@ -186,8 +186,7 @@ public class EditPanel extends VBox implements Initializable{
     }
 
     private int getLineCount(String str) {
-        int count = str.length() - str.replace("\n", "").length();
-        return count == 0 ? 1 : count;
+        return 1 + str.length() - str.replace("\n", "").length();
     }
 
     public void replaceFocusedText(String text) {
