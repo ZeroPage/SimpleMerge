@@ -4,13 +4,13 @@ import SimpleMerge.control.EditPanel;
 import SimpleMerge.control.EditPanelEventListener;
 import SimpleMerge.control.FileSelector;
 import SimpleMerge.diff.Diff;
+import SimpleMerge.diff.Block;
 import SimpleMerge.util.Pair;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 
@@ -105,7 +105,7 @@ public class Controller implements Initializable {
         List<String> r = Arrays.asList(rightEditPanelText.split("\n"));
         Diff<String> diff = new Diff<>();
         diff.compare(l, r);
-        Pair<List<Pair<Integer>>> diffBlockPair = diff.getDiffBlocks();
+        Pair<List<Block>> diffBlockPair = diff.getDiffBlocks();
         if (diffBlockPair.first.size() == 0) {
             // TODO: notify it's identical.
             System.out.println("No diff blocks!");

@@ -13,7 +13,7 @@ public class Diff<T extends Comparable<T>> {
 
     private Algorithm<T> algorithm;
     private List<Pair<Integer>> commonLineIndexes;
-    private Pair<List<Pair<Integer>>> diffBlocksPair;
+    private Pair<List<Block>> diffBlocksPair;
     private List<T> list1, list2;
 
     public Diff() {
@@ -41,30 +41,37 @@ public class Diff<T extends Comparable<T>> {
         return commonLineIndexes;
     }
 
-    public Pair<List<Pair<Integer>>> getDiffBlocks() {
+    public Pair<List<Block>> getDiffBlocks() {
         if (diffBlocksPair != null) {
             return diffBlocksPair;
         }
-        List<Pair<Integer>> blocks1 = new ArrayList<>(), blocks2 = new ArrayList<>();
+        List<Block> blocks1 = new ArrayList<>(), blocks2 = new ArrayList<>();
 
         int lastLineIndex1 = -1, lastLineIndex2 = -1;
         for (Pair<Integer> pair : commonLineIndexes) {
-            blocks1.add(new Pair<Integer>(lastLineIndex1 + 1, pair.first - 1));
-            blocks2.add(new Pair<Integer>(lastLineIndex2 + 1, pair.second - 1));
+            blocks1.add(new Block(lastLineIndex1 + 1, pair.first - 1));
+            blocks2.add(new Block(lastLineIndex2 + 1, pair.second - 1));
             lastLineIndex1 = pair.first;
             lastLineIndex2 = pair.second;
         }
-        blocks1.add(new Pair<>(lastLineIndex1 + 1, list1.size() - 1));
-        blocks2.add(new Pair<>(lastLineIndex2 + 1, list2.size() - 1));
+        blocks1.add(new Block(lastLineIndex1 + 1, list1.size() - 1));
+        blocks2.add(new Block(lastLineIndex2 + 1, list2.size() - 1));
 
-        Predicate<Pair<Integer>> isInvalidBlock = new Predicate<Pair<Integer>>() {
+        Predicate<Block> isInvalidBlock = new Predicate<Block>() {
             @Override
-            public boolean test(Pair<Integer> integerPair) {
-                return integerPair.first > integerPair.second;
+            public boolean test(Block block) {
+                return block.start() > block.end();
             }
         };
         blocks1.removeIf(isInvalidBlock);
         blocks2.removeIf(isInvalidBlock);
+
+        for (Block block : blocks1) {
+            System.out.println("block1 : " + block.start() + ", " + block.end());
+        }
+        for (Block block : blocks2) {
+            System.out.println("block2 : " + block.start() + ", " + block.end());
+        }
 
         diffBlocksPair = new Pair<>(blocks1, blocks2);
         return diffBlocksPair;

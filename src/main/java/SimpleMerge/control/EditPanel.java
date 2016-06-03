@@ -1,7 +1,7 @@
 package SimpleMerge.control;
 
+import SimpleMerge.diff.Block;
 import SimpleMerge.util.FileHelper;
-import SimpleMerge.util.Pair;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -26,7 +26,7 @@ public class EditPanel extends VBox implements Initializable{
     @FXML
     private InlineCssTextArea textArea;
 
-    private List<Pair<Integer>> diffBlocks;
+    private List<Block> diffBlocks;
     private int focusedDiffBlockIndex = -1;
 
     private void emitLoad() {
@@ -122,19 +122,19 @@ public class EditPanel extends VBox implements Initializable{
         return textArea.getText();
     }
 
-    private void setAsDiff(Pair<Integer> block) {
-        for (int i = block.first; i <= block.second; i++) {
+    private void setAsDiff(Block block) {
+        for (int i = block.start(); i <= block.end(); i++) {
             textArea.setStyle(i, "-fx-fill: red");
         }
     }
 
-    private void setAsFocused(Pair<Integer> block) {
+    private void setAsFocused(Block block) {
         String[] splitted = textArea.getText().split("\n");
         int start = 0, end = 0;
-        for (int i = 0; i < block.first; i++) {
+        for (int i = 0; i < block.start(); i++) {
             start += splitted[i].length() + 1;
         }
-        for (int i = 0 ; i <= block.second; i++) {
+        for (int i = 0 ; i <= block.end(); i++) {
             end += splitted[i].length() + 1;
         }
         textArea.selectRange(start, end);
@@ -144,8 +144,8 @@ public class EditPanel extends VBox implements Initializable{
         textArea.setStyle(index, "-fx-fill: black");
     }
 
-    private void setAsMerged(Pair<Integer> block) {
-        for (int i = block.first; i <= block.second; i++) {
+    private void setAsMerged(Block block) {
+        for (int i = block.start(); i <= block.end(); i++) {
             textArea.setStyle(i, "-fx-fill: green");
         }
     }
@@ -156,10 +156,10 @@ public class EditPanel extends VBox implements Initializable{
         }
     }
 
-    public void setDiffBlock(List<Pair<Integer>> diffBlocks) {
+    public void setDiffBlock(List<Block> diffBlocks) {
         resetStyle();
         this.diffBlocks = diffBlocks;
-        for (Pair<Integer> block : diffBlocks) {
+        for (Block block : diffBlocks) {
             setAsDiff(block);
         }
         if (diffBlocks.size() > 0) {
@@ -212,9 +212,9 @@ public class EditPanel extends VBox implements Initializable{
             System.out.println("No update Diff blocks");
             return;
         }
-        diffBlocks.set(focusedDiffBlockIndex, new Pair<>(diffBlocks.get(focusedDiffBlockIndex).first, diffBlocks.get(focusedDiffBlockIndex).second + k));
+        diffBlocks.get(focusedDiffBlockIndex).update(0, k);
         for (int i = focusedDiffBlockIndex + 1; i < diffBlocks.size(); i++) {
-            diffBlocks.set(i, new Pair<>(diffBlocks.get(i).first + k, diffBlocks.get(i).second + k));
+            diffBlocks.get(i).update(k);
         }
     }
 
