@@ -4,6 +4,7 @@ import SimpleMerge.util.FileHelper;
 import SimpleMerge.util.Pair;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.IndexRange;
 import javafx.scene.layout.VBox;
@@ -11,9 +12,11 @@ import org.fxmisc.richtext.InlineCssTextArea;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class EditPanel extends VBox{
+public class EditPanel extends VBox implements Initializable{
 
     private EditPanelEventListener eventListener;
     private FileSelector selector;
@@ -213,5 +216,10 @@ public class EditPanel extends VBox{
         for (int i = focusedDiffBlockIndex + 1; i < diffBlocks.size(); i++) {
             diffBlocks.set(i, new Pair<>(diffBlocks.get(i).first + k, diffBlocks.get(i).second + k));
         }
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        textArea.setPrefSize(1000, 1000);
     }
 }
