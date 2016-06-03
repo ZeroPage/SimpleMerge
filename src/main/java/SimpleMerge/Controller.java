@@ -111,8 +111,8 @@ public class Controller implements Initializable {
             System.out.println("No diff blocks!");
             return;
         }
-        leftEditPanel.setDiffBlock(diffBlockPair.first);
-        rightEditPanel.setDiffBlock(diffBlockPair.second);
+        leftEditPanel.startCompare(diffBlockPair.first);
+        rightEditPanel.startCompare(diffBlockPair.second);
         leftMerge.setDisable(false);
         rightMerge.setDisable(false);
     }
@@ -134,8 +134,6 @@ public class Controller implements Initializable {
 
     private void finishMerge() {
         leftMerge.setDisable(true);
-        leftEditPanel.unfocus();
         rightMerge.setDisable(true);
-        rightEditPanel.unfocus();
     }
 }

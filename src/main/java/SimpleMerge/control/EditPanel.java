@@ -27,7 +27,14 @@ public class EditPanel extends VBox implements Initializable{
     private InlineCssTextArea textArea;
 
     private List<Block> diffBlocks;
-    private int focusedDiffBlockIndex = -1;
+    private int currentBlockIndex;
+
+    private static class BlockStyle {
+        public static String Identical = "-fx-background-fill: white;";
+        public static String Merged = "-fx-background-fill: lightgreen;";
+        public static String Diff = "-fx-background-fill: yellow;";
+        public static String Focused = "-fx-background-fill: lightblue;";
+    }
 
     private void emitLoad() {
         if (eventListener == null)
@@ -122,11 +129,6 @@ public class EditPanel extends VBox implements Initializable{
         return textArea.getText();
     }
 
-    private void setAsDiff(Block block) {
-        for (int i = block.start(); i < block.end(); i++) {
-            textArea.setStyle(i, "-fx-fill: red");
-        }
-    }
 
     private void setAsFocused(Block block) {
         String[] splitted = textArea.getText().split("\n");
@@ -156,54 +158,79 @@ public class EditPanel extends VBox implements Initializable{
         }
     }
 
-    public void setDiffBlock(List<Block> diffBlocks) {
+    private void setBlockStyle(Block block, String style) {
+        for (int i = block.start(); i < block.end(); i++) {
+            textArea.setStyle(i, style);
+        }
+    }
+
+    private String getBlockText(Block block) {
+        StringBuilder stringBuilder = new StringBuilder();
+        String[] splitted = textArea.getText().split("\n");
+        System.out.println(getId() + " block.start(): " + block.start() + ", block.end(): " + block.end() + ", splitted.length: " + splitted.length);
+        for (int i = block.start(); i < block.end(); i++) {
+            stringBuilder.append(splitted[i]);
+            if (i < splitted.length - 1) {
+                stringBuilder.append('\n');
+            }
+        }
+        return stringBuilder.toString();
+    }
+
+    private IndexRange calculateIndexRange(Block block) {
+        String[] splitted = textArea.getText().split("\n");
+        int start = 0, end = 0;
+        for (int i = 0; i < block.end(); i++) {
+            if (i < block.start()) {
+                start += splitted[i].length();
+                if (i < splitted.length - 1) {
+                    start +=1;
+                }
+            }
+            end += splitted[i].length();
+            if (i < splitted.length - 1) {
+                end += 1;
+            }
+        }
+        return new IndexRange(start, end);
+    }
+
+    public void startCompare(List<Block> diffBlocks) {
         resetStyle();
         this.diffBlocks = diffBlocks;
         for (Block block : diffBlocks) {
-            setAsDiff(block);
+            setBlockStyle(block, BlockStyle.Diff);
         }
-        if (diffBlocks.size() > 0) {
-            setFocusDiffBlock(0);
-        }
+        setFocusDiffBlock(0);
     }
 
     private void setFocusDiffBlock(int index) {
-        if (index >= 0 && index < diffBlocks.size()) {
-            setAsFocused(diffBlocks.get(index));
-            focusedDiffBlockIndex = index;
-        } else {
-            textArea.selectRange(0, 0);
-            focusedDiffBlockIndex = -1;
+        currentBlockIndex = index;
+        if (currentBlockIndex < diffBlocks.size()) {
+            setBlockStyle(diffBlocks.get(currentBlockIndex), BlockStyle.Focused);
         }
-    }
-
-    public void unfocus() {
-        if (focusedDiffBlockIndex == -1) {
-            return;
-        }
-        setAsDiff(diffBlocks.get(focusedDiffBlockIndex));
-        focusedDiffBlockIndex = -1;
     }
 
     private int getLineCount(String str) {
+        // FIXME: Use linear search for counting newline character.
         return 1 + str.length() - str.replace("\n", "").length();
     }
 
     public void replaceFocusedText(String text) {
-        updateDiffBlock(getLineCount(text) - getLineCount(getFocusedText()));
-        textArea.replaceSelection(text);
-        setAsMerged(diffBlocks.get(focusedDiffBlockIndex));
+        int currentLineCount = getLineCount(getFocusedText());
+        textArea.replaceText(calculateIndexRange(diffBlocks.get(currentBlockIndex)), text);
+        updateDiffBlock(getLineCount(text) - currentLineCount);
+        setBlockStyle(diffBlocks.get(currentBlockIndex), BlockStyle.Merged);
     }
 
     public String getFocusedText() {
-        return textArea.getSelectedText();
+        setBlockStyle(diffBlocks.get(currentBlockIndex), BlockStyle.Identical);
+        return getBlockText(diffBlocks.get(currentBlockIndex));
     }
 
     public boolean moveFocusToNext() {
-        IndexRange range = textArea.getSelection();
-        textArea.setStyle(range.getStart(), range.getEnd(), "-fx-fill: black");
-        setFocusDiffBlock(focusedDiffBlockIndex + 1);
-        return focusedDiffBlockIndex != -1;
+        setFocusDiffBlock(currentBlockIndex + 1);
+        return currentBlockIndex < diffBlocks.size();
     }
 
     private void updateDiffBlock(int k) {
@@ -211,8 +238,8 @@ public class EditPanel extends VBox implements Initializable{
             System.out.println("No update Diff blocks");
             return;
         }
-        diffBlocks.get(focusedDiffBlockIndex).update(0, k);
-        for (int i = focusedDiffBlockIndex + 1; i < diffBlocks.size(); i++) {
+        diffBlocks.get(currentBlockIndex).update(0, k);
+        for (int i = currentBlockIndex + 1; i < diffBlocks.size(); i++) {
             diffBlocks.get(i).update(k);
         }
     }
