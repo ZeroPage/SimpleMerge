@@ -94,7 +94,9 @@ public class Controller implements Initializable {
             @Override
             public File getFile() {
                 FileChooser chooser = new FileChooser();
-                chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("txt files (*.txt)", "*.txt"));
+                chooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("txt files (*.txt)", "*.txt"),
+                    new FileChooser.ExtensionFilter("All Files", "*.*"));
                 return chooser.showOpenDialog(null);
             }
         });
