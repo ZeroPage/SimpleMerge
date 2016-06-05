@@ -8,7 +8,7 @@
     <children>
        <ButtonBar prefHeight="40.0">
             <buttons>
-                <Button fx:id="load" mnemonicParsing="false" onAction="#onLoadButtonClick" text="Load" ></Button>
+                <Button fx:id="load" mnemonicParsing="false" text="Load" onMouseReleased="#onLoadButtonClick" ></Button>
                 <Button fx:id="edit" mnemonicParsing="false" onAction="#onEditButtonClick" text="Edit"></Button>
                 <Button fx:id="save" mnemonicParsing="false" onAction="#onSaveButtonClick" text="Save"></Button>
             </buttons>

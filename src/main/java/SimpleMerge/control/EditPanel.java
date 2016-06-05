@@ -62,7 +62,9 @@ public class EditPanel extends VBox implements Initializable{
 
     @FXML
     private void onLoadButtonClick() {
+        load.setDisable(true);
         File file = selector.getFile();
+        load.setDisable(false);
         if(file != null){
             fileName = file.getName();
             try {
@@ -75,7 +77,6 @@ public class EditPanel extends VBox implements Initializable{
             emitLoad();
         }
     }
-
     @FXML
     private void onEditButtonClick() {
         textArea.setDisable(false);
