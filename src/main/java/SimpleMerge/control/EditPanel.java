@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.IndexRange;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import org.fxmisc.richtext.InlineCssTextArea;
 
@@ -25,6 +26,9 @@ public class EditPanel extends VBox implements Initializable{
     private Button load, edit, save;
     @FXML
     private InlineCssTextArea textArea;
+
+    @FXML
+    private Label filePath;
 
     private List<Block> diffBlocks;
     private int currentBlockIndex;
@@ -67,6 +71,7 @@ public class EditPanel extends VBox implements Initializable{
         load.setDisable(false);
         if(file != null){
             fileName = file.getName();
+            filePath.setText(file.getPath());
             try {
                 textArea.replaceText(FileHelper.load(file));
                 resetStyle();
