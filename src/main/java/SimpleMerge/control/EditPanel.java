@@ -14,6 +14,8 @@ import org.fxmisc.richtext.InlineCssTextArea;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.file.*;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -28,10 +30,11 @@ public class EditPanel extends VBox implements Initializable{
     private InlineCssTextArea textArea;
 
     @FXML
-    private Label filePath;
+    private Label pathLabel;
 
     private List<Block> diffBlocks;
     private int currentBlockIndex;
+    private File currentOpenFile;
 
     private static class BlockStyle {
         public static String Identical = "-fx-background-fill: white;";
@@ -67,13 +70,13 @@ public class EditPanel extends VBox implements Initializable{
     @FXML
     private void onLoadButtonClick() {
         load.setDisable(true);
-        File file = selector.getFile();
+        currentOpenFile = selector.getFile();
         load.setDisable(false);
-        if(file != null){
-            fileName = file.getName();
-            filePath.setText(file.getPath());
+        if(currentOpenFile != null){
+            fileName = currentOpenFile.getName();
+            pathLabel.setText(currentOpenFile.getPath());
             try {
-                textArea.replaceText(FileHelper.load(file));
+                textArea.replaceText(FileHelper.load(currentOpenFile));
                 resetStyle();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -86,30 +89,25 @@ public class EditPanel extends VBox implements Initializable{
     private void onEditButtonClick() {
         textArea.setDisable(false);
         edit.setDisable(true);
+        save.setDisable(false);
         emitEdit();
     }
 
     @FXML
     private void onSaveButtonClick() {
-        File file = selector.getFile();
-        if(fileName != null || file != null){
-            try{
-                FileHelper.save(file, textArea.getText());
-            }
-            catch(Exception e){
-                e.printStackTrace();
-            }
-            save.setDisable(true);
-            edit.setDisable(false);
-            emitSave();
+        textArea.setDisable(true);
+        String content = textArea.getText();
+        Path filePath = Paths.get(pathLabel.getText());
+        try {
+            Files.write(filePath, content.getBytes(Charset.forName("UTF-8")), StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        else{
-            try {
-                FileHelper.save(file, fileName);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        save.setDisable(true);
+        edit.setDisable(false);
+        emitSave();
+
+
     }
 
     public void setEventListener(EditPanelEventListener eventListener) {

@@ -13,7 +13,7 @@
                 <Button fx:id="save" mnemonicParsing="false" onAction="#onSaveButtonClick" text="Save"></Button>
             </buttons>
         </ButtonBar>
-        <Label fx:id="filePath"></Label>
+        <Label fx:id="pathLabel"></Label>
         <InlineCssTextArea fx:id="textArea" disable="true" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="40" />
     </children>
 </fx:root>
