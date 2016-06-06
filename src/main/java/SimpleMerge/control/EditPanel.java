@@ -153,7 +153,7 @@ public class EditPanel extends VBox implements Initializable{
         }
     }
 
-    private void resetStyle() {
+    public void resetStyle() {
         for (int i = 0; i < textArea.getText().split("\n").length; i++) {
             textArea.setStyle(i, "-fx-fill: black");
         }

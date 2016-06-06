@@ -105,6 +105,10 @@ public class Controller implements Initializable {
     }
 
     public void compare(ActionEvent actionEvent) {
+        leftEditPanel.resetStyle();
+        rightEditPanel.resetStyle();
+        leftEditPanelText = leftEditPanel.getText();
+        rightEditPanelText = rightEditPanel.getText();
         List<String> l = Arrays.asList(leftEditPanelText.split("\n"));
         List<String> r = Arrays.asList(rightEditPanelText.split("\n"));
         Diff<String> diff = new Diff<>();
