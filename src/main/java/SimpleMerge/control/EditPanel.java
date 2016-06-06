@@ -76,7 +76,9 @@ public class EditPanel extends VBox implements Initializable{
             fileName = currentOpenFile.getName();
             pathLabel.setText(currentOpenFile.getPath());
             try {
+                textArea.setDisable(false);
                 textArea.replaceText(FileHelper.load(currentOpenFile));
+                textArea.setEditable(false);
                 resetStyle();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -87,7 +89,7 @@ public class EditPanel extends VBox implements Initializable{
     }
     @FXML
     private void onEditButtonClick() {
-        textArea.setDisable(false);
+        textArea.setEditable(true);
         edit.setDisable(true);
         save.setDisable(false);
         emitEdit();
@@ -95,7 +97,7 @@ public class EditPanel extends VBox implements Initializable{
 
     @FXML
     private void onSaveButtonClick() {
-        textArea.setDisable(true);
+        textArea.setEditable(false);
         String content = textArea.getText();
         Path filePath = Paths.get(pathLabel.getText());
         try {
