@@ -125,8 +125,8 @@ public class Controller implements Initializable {
         rightEditPanel.resetStyle();
         leftEditPanelText = leftEditPanel.getText();
         rightEditPanelText = rightEditPanel.getText();
-        List<String> l = Arrays.asList(leftEditPanelText.split("\n"));
-        List<String> r = Arrays.asList(rightEditPanelText.split("\n"));
+        List<String> l = Arrays.asList(leftEditPanelText.split("\n", -1));
+        List<String> r = Arrays.asList(rightEditPanelText.split("\n", -1));
         Diff<String> diff = new Diff<>();
         diff.compare(l, r);
         Pair<List<Block>> diffBlockPair = diff.getDiffBlocks();

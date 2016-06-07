@@ -168,7 +168,7 @@ public class EditPanel extends VBox implements Initializable{
 
 
     private void setAsFocused(Block block) {
-        String[] splitted = textArea.getText().split("\n");
+        String[] splitted = textArea.getText().split("\n", -1);
         int start = 0, end = 0;
         for (int i = 0; i < block.start(); i++) {
             start += splitted[i].length() + 1;
@@ -190,7 +190,7 @@ public class EditPanel extends VBox implements Initializable{
     }
 
     public void resetStyle() {
-        for (int i = 0; i < textArea.getText().split("\n").length; i++) {
+        for (int i = 0; i < textArea.getText().split("\n", -1).length; i++) {
             textArea.setStyle(i, "-fx-fill: black");
         }
     }
@@ -203,7 +203,7 @@ public class EditPanel extends VBox implements Initializable{
 
     private String getBlockText(Block block) {
         StringBuilder stringBuilder = new StringBuilder();
-        String[] splitted = textArea.getText().split("\n");
+        String[] splitted = textArea.getText().split("\n", -1);
         System.out.println(getId() + " block.start(): " + block.start() + ", block.end(): " + block.end() + ", splitted.length: " + splitted.length);
         for (int i = block.start(); i < block.end(); i++) {
             stringBuilder.append(splitted[i]);
@@ -215,7 +215,7 @@ public class EditPanel extends VBox implements Initializable{
     }
 
     private IndexRange calculateIndexRange(Block block) {
-        String[] splitted = textArea.getText().split("\n");
+        String[] splitted = textArea.getText().split("\n", -1);
         int start = 0, end = 0;
         for (int i = 0; i < block.end(); i++) {
             if (i < block.start()) {
