@@ -89,6 +89,7 @@ public class EditPanel extends VBox implements Initializable{
     }
     @FXML
     private void onEditButtonClick() {
+        textArea.setDisable(false);
         textArea.setEditable(true);
         edit.setDisable(true);
         save.setDisable(false);
@@ -99,17 +100,45 @@ public class EditPanel extends VBox implements Initializable{
     private void onSaveButtonClick() {
         textArea.setEditable(false);
         String content = textArea.getText();
+
+        if(pathLabel.getText() == ""){
+            saveAs(content);
+        }
+        else{
+            save(content);
+        }
+        emitSave();
+    }
+
+    private void save(String content){
         Path filePath = Paths.get(pathLabel.getText());
         try {
             Files.write(filePath, content.getBytes(Charset.forName("UTF-8")), StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException e) {
             e.printStackTrace();
+        }finally{
+            save.setDisable(true);
+            edit.setDisable(false);
         }
-        save.setDisable(true);
-        edit.setDisable(false);
-        emitSave();
+    }
 
-
+    private void saveAs(String content){
+        File file = selector.getFile();
+        if(file != null) {
+            try{
+                FileHelper.save(file, content);
+            }catch(IOException e) {
+                e.printStackTrace();
+            }finally{
+                save.setDisable(true);
+                edit.setDisable(false);
+            }
+        }
+        else{
+            save.setDisable(false);
+            edit.setDisable(true);
+            textArea.setEditable(true);
+        }
     }
 
     public void setEventListener(EditPanelEventListener eventListener) {
