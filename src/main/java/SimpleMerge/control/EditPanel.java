@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.IndexRange;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import org.fxmisc.richtext.InlineCssTextArea;
 
 import java.io.File;
@@ -101,7 +102,7 @@ public class EditPanel extends VBox implements Initializable{
         textArea.setEditable(false);
         String content = textArea.getText();
 
-        if(pathLabel.getText() == ""){
+        if(pathLabel.getText().equals("")){
             saveAs(content);
         }
         else{
@@ -123,10 +124,15 @@ public class EditPanel extends VBox implements Initializable{
     }
 
     private void saveAs(String content){
-        File file = selector.getFile();
+        FileChooser saveFileChooser = new FileChooser();
+        saveFileChooser.getExtensionFilters().addAll(
+            new FileChooser.ExtensionFilter("text files (*.txt)", "*.txt"),
+            new FileChooser.ExtensionFilter("All Files", "*.*"));
+        File file = saveFileChooser.showSaveDialog(null);
         if(file != null) {
             try{
                 FileHelper.save(file, content);
+                pathLabel.setText(file.getPath());
             }catch(IOException e) {
                 e.printStackTrace();
             }finally{
