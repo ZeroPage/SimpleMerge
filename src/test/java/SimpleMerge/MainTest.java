@@ -4,7 +4,6 @@ import SimpleMerge.control.EditPanel;
 import SimpleMerge.control.FileSelector;
 import javafx.scene.control.Button;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
@@ -19,29 +18,11 @@ import static org.testfx.api.FxAssert.verifyThat;
 
 public class MainTest {
     FxRobot fx = new FxRobot();
-    FileSelector leftFileSelector, rightFileSelector;
-
-    @BeforeClass
-    public static void setup() throws Exception {
-        FxToolkit.registerPrimaryStage();
-        FxToolkit.setupApplication(Main.class);
-    }
 
     @Before
-    public void setupFileSelector() throws URISyntaxException {
-        ClassLoader classLoader = this.getClass().getClassLoader();
-
-        EditPanel left = fx.lookup("#leftEditPanel").query();
-        EditPanel right = fx.lookup("#rightEditPanel").query();
-        leftFileSelector = mock(FileSelector.class);
-        rightFileSelector = mock(FileSelector.class);
-        URI leftResourceURI = classLoader.getResource("SimpleMerge/diff/multiline-1-A.txt").toURI();
-        URI rightResourceURI = classLoader.getResource("SimpleMerge/diff/multiline-1-B.txt").toURI();
-        when(leftFileSelector.getFile()).thenReturn(Paths.get(leftResourceURI).toFile());
-        when(rightFileSelector.getFile()).thenReturn(Paths.get(rightResourceURI).toFile());
-
-        left.setFileSelector(leftFileSelector);
-        right.setFileSelector(rightFileSelector);
+    public void setup() throws Exception {
+        FxToolkit.registerPrimaryStage();
+        FxToolkit.setupApplication(Main.class);
     }
 
     // Side-by-Side edit panels.
@@ -71,9 +52,42 @@ public class MainTest {
         verifyThat("#rightMerge", (Button b) -> b.isDisabled() && b.getText().equals("Copy to Right"));
     }
 
+     private void setMockFileSelector(String editPanelId, String resourcePath) {
+        FileSelector fileSelector = mock(FileSelector.class);
+        try {
+            URI resourceURI = this.getClass().getClassLoader().getResource(resourcePath).toURI();
+            when(fileSelector.getFile()).thenReturn(Paths.get(resourceURI).toFile());
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+        EditPanel editPanel = fx.lookup(editPanelId).query();
+        editPanel.setFileSelector(fileSelector);
+    }
+
     @Test
     public void shouldBeAbleToLoadFile() {
+        setMockFileSelector("#leftEditPanel", "SimpleMerge/diff/multiline-1-A.txt");
         fx.clickOn("#leftEditPanel #load");
         verifyThat("#leftEditPanel", (EditPanel editPanel) -> editPanel.getText().length() > 10);
+    }
+
+    @Test
+    public void shouldBeAbleToCompare() {
+        setMockFileSelector("#leftEditPanel", "SimpleMerge/diff/multiline-1-A.txt");
+        setMockFileSelector("#rightEditPanel", "SimpleMerge/diff/multiline-1-B.txt");
+        fx.clickOn("#leftEditPanel #load");
+        fx.clickOn("#rightEditPanel #load");
+        verifyThat("#compare", (Button b) -> !b.isDisabled());
+    }
+
+    @Test
+    public void shouldNotBeAbleToCopyBeforeCompare() {
+        setMockFileSelector("#leftEditPanel", "SimpleMerge/diff/multiline-1-A.txt");
+        setMockFileSelector("#rightEditPanel", "SimpleMerge/diff/multiline-1-B.txt");
+        fx.clickOn("#leftEditPanel #load");
+        fx.clickOn("#rightEditPanel #load");
+
+        verifyThat("#leftMerge", (Button b) -> b.isDisabled());
+        verifyThat("#rightMerge", (Button b) -> b.isDisabled());
     }
 }
