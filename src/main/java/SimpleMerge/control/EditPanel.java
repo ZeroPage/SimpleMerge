@@ -124,11 +124,7 @@ public class EditPanel extends VBox implements Initializable{
     }
 
     private void saveAs(String content){
-        FileChooser saveFileChooser = new FileChooser();
-        saveFileChooser.getExtensionFilters().addAll(
-            new FileChooser.ExtensionFilter("text files (*.txt)", "*.txt"),
-            new FileChooser.ExtensionFilter("All Files", "*.*"));
-        File file = saveFileChooser.showSaveDialog(null);
+        File file = selector.saveFile();
         if(file != null) {
             try{
                 FileHelper.save(file, content);

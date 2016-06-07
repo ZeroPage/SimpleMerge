@@ -69,6 +69,14 @@ public class Controller implements Initializable {
                     new FileChooser.ExtensionFilter("All Files", "*.*"));
                 return chooser.showOpenDialog(null);
             }
+            @Override
+            public File saveFile(){
+                FileChooser saveFileChooser = new FileChooser();
+                saveFileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("text files (*.txt)", "*.txt"),
+                    new FileChooser.ExtensionFilter("All Files", "*.*"));
+                return saveFileChooser.showSaveDialog(null);
+            }
         });
         rightEditPanel.setEventListener(new EditPanelEventListener() {
             @Override
@@ -100,6 +108,14 @@ public class Controller implements Initializable {
                     new FileChooser.ExtensionFilter("text files (*.txt)", "*.txt"),
                     new FileChooser.ExtensionFilter("All Files", "*.*"));
                 return chooser.showOpenDialog(null);
+            }
+            @Override
+            public File saveFile(){
+                FileChooser saveFileChooser = new FileChooser();
+                saveFileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("text files (*.txt)", "*.txt"),
+                    new FileChooser.ExtensionFilter("All Files", "*.*"));
+                return saveFileChooser.showSaveDialog(null);
             }
         });
     }
