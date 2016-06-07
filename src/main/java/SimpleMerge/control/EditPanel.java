@@ -37,8 +37,8 @@ public class EditPanel extends VBox implements Initializable{
     private int currentBlockIndex;
     private File currentOpenFile;
 
-    private static class BlockStyle {
-        public static String Identical = "-fx-background-fill: white;";
+    public static class BlockStyle {
+        public static String Identical = "-fx-fill: black";
         public static String Merged = "-fx-background-fill: lightgreen;";
         public static String Diff = "-fx-background-fill: yellow;";
         public static String Focused = "-fx-background-fill: lightblue;";

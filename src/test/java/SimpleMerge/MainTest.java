@@ -3,6 +3,7 @@ package SimpleMerge;
 import SimpleMerge.control.EditPanel;
 import SimpleMerge.control.FileSelector;
 import javafx.scene.control.Button;
+import org.fxmisc.richtext.InlineCssTextArea;
 import org.junit.Before;
 import org.junit.Test;
 import org.testfx.api.FxRobot;
@@ -12,6 +13,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.testfx.api.FxAssert.verifyThat;
@@ -89,5 +91,55 @@ public class MainTest {
 
         verifyThat("#leftMerge", (Button b) -> b.isDisabled());
         verifyThat("#rightMerge", (Button b) -> b.isDisabled());
+    }
+
+    @Test
+    public void shouldHighlightTextOnCompare() {
+        setMockFileSelector("#leftEditPanel", "SimpleMerge/diff/multiline-1-A.txt");
+        setMockFileSelector("#rightEditPanel", "SimpleMerge/diff/multiline-1-B.txt");
+        fx.clickOn("#leftEditPanel #load");
+        fx.clickOn("#rightEditPanel #load");
+        fx.clickOn("#compare");
+
+        verifyThat("#leftEditPanel #textArea", (InlineCssTextArea ta) ->
+            ta.getStyleAtPosition(0, 0).equals(EditPanel.BlockStyle.Focused) &&
+            ta.getStyleAtPosition(1, 0).equals(EditPanel.BlockStyle.Focused) &&
+            ta.getStyleAtPosition(2, 0).equals(EditPanel.BlockStyle.Identical) &&
+            ta.getStyleAtPosition(3, 0).equals(EditPanel.BlockStyle.Diff));
+
+        verifyThat("#rightEditPanel #textArea", (InlineCssTextArea ta) ->
+            ta.getStyleAtPosition(0, 0).equals(EditPanel.BlockStyle.Focused) &&
+            ta.getStyleAtPosition(1, 0).equals(EditPanel.BlockStyle.Identical) &&
+            ta.getStyleAtPosition(2, 0).equals(EditPanel.BlockStyle.Diff));
+    }
+
+    @Test
+    public void shouldBeIdenticalAfterConsecutiveCopyToLeft() {
+        setMockFileSelector("#leftEditPanel", "SimpleMerge/diff/multiline-1-A.txt");
+        setMockFileSelector("#rightEditPanel", "SimpleMerge/diff/multiline-1-B.txt");
+        fx.clickOn("#leftEditPanel #load");
+        fx.clickOn("#rightEditPanel #load");
+        fx.clickOn("#compare");
+        fx.clickOn("#leftMerge");
+        fx.clickOn("#leftMerge");
+
+        String leftText = ((EditPanel)fx.lookup("#leftEditPanel").query()).getText();
+        String rightText = ((EditPanel)fx.lookup("#rightEditPanel").query()).getText();
+        assertEquals(leftText, rightText);
+    }
+
+    @Test
+    public void shouldBeIdenticalAfterConsecutiveCopyToRight() {
+        setMockFileSelector("#leftEditPanel", "SimpleMerge/diff/multiline-1-A.txt");
+        setMockFileSelector("#rightEditPanel", "SimpleMerge/diff/multiline-1-B.txt");
+        fx.clickOn("#leftEditPanel #load");
+        fx.clickOn("#rightEditPanel #load");
+        fx.clickOn("#compare");
+        fx.clickOn("#rightMerge");
+        fx.clickOn("#rightMerge");
+
+        String leftText = ((EditPanel)fx.lookup("#leftEditPanel").query()).getText();
+        String rightText = ((EditPanel)fx.lookup("#rightEditPanel").query()).getText();
+        assertEquals(leftText, rightText);
     }
 }
