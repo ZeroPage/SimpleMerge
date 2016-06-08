@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.IndexRange;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 import org.fxmisc.richtext.InlineCssTextArea;
 
 import java.io.File;
@@ -33,15 +32,38 @@ public class EditPanel extends VBox implements Initializable{
     @FXML
     private Label pathLabel;
 
-    private List<Block> diffBlocks;
-    private int currentBlockIndex;
     private File currentOpenFile;
+
+    public void updateBlockStyle(Block block, int blockStyle) {
+        for (int i = block.start(); i < block.end(); i++) {
+            textArea.setStyle(i, BlockStyle.getById(blockStyle));
+        }
+    }
+
+    public void updateText(Block block, List<String> items, boolean includeLastItem) {
+        textArea.replaceText(calculateIndexRange(block), String.join("\n", items) + (includeLastItem == true ? "" : "\n"));
+    }
 
     public static class BlockStyle {
         public static String Identical = "-fx-fill: black";
         public static String Merged = "-fx-background-fill: lightgreen;";
         public static String Diff = "-fx-background-fill: yellow;";
         public static String Focused = "-fx-background-fill: lightblue;";
+
+        public static String getById(int id) {
+            switch (id) {
+                case 1:
+                    return Identical;
+                case 2:
+                    return Merged;
+                case 3:
+                    return Diff;
+                case 4:
+                    return Focused;
+                default:
+                    throw new RuntimeException("Undefined BlockStyle id: " + id);
+            }
+        }
     }
 
     private void emitLoad() {
@@ -172,25 +194,6 @@ public class EditPanel extends VBox implements Initializable{
         }
     }
 
-    private void setBlockStyle(Block block, String style) {
-        for (int i = block.start(); i < block.end(); i++) {
-            textArea.setStyle(i, style);
-        }
-    }
-
-    private String getBlockText(Block block) {
-        StringBuilder stringBuilder = new StringBuilder();
-        String[] splitted = textArea.getText().split("\n", -1);
-        System.out.println(getId() + " block.start(): " + block.start() + ", block.end(): " + block.end() + ", splitted.length: " + splitted.length);
-        for (int i = block.start(); i < block.end(); i++) {
-            stringBuilder.append(splitted[i]);
-            if (i < splitted.length - 1) {
-                stringBuilder.append('\n');
-            }
-        }
-        return stringBuilder.toString();
-    }
-
     private IndexRange calculateIndexRange(Block block) {
         String[] splitted = textArea.getText().split("\n", -1);
         int start = 0, end = 0;
@@ -207,55 +210,6 @@ public class EditPanel extends VBox implements Initializable{
             }
         }
         return new IndexRange(start, end);
-    }
-
-    public void startCompare(List<Block> diffBlocks) {
-        resetStyle();
-        this.diffBlocks = diffBlocks;
-        for (Block block : diffBlocks) {
-            setBlockStyle(block, BlockStyle.Diff);
-        }
-        setFocusDiffBlock(0);
-    }
-
-    private void setFocusDiffBlock(int index) {
-        currentBlockIndex = index;
-        if (currentBlockIndex < diffBlocks.size()) {
-            setBlockStyle(diffBlocks.get(currentBlockIndex), BlockStyle.Focused);
-        }
-    }
-
-    private int getLineCount(String str) {
-        // FIXME: Use linear search for counting newline character.
-        return 1 + str.length() - str.replace("\n", "").length();
-    }
-
-    public void replaceFocusedText(String text) {
-        int currentLineCount = getLineCount(getFocusedText());
-        textArea.replaceText(calculateIndexRange(diffBlocks.get(currentBlockIndex)), text);
-        updateDiffBlock(getLineCount(text) - currentLineCount);
-        setBlockStyle(diffBlocks.get(currentBlockIndex), BlockStyle.Merged);
-    }
-
-    public String getFocusedText() {
-        setBlockStyle(diffBlocks.get(currentBlockIndex), BlockStyle.Identical);
-        return getBlockText(diffBlocks.get(currentBlockIndex));
-    }
-
-    public boolean moveFocusToNext() {
-        setFocusDiffBlock(currentBlockIndex + 1);
-        return currentBlockIndex < diffBlocks.size();
-    }
-
-    private void updateDiffBlock(int k) {
-        if (k == 0) {
-            System.out.println("No update Diff blocks");
-            return;
-        }
-        diffBlocks.get(currentBlockIndex).update(0, k);
-        for (int i = currentBlockIndex + 1; i < diffBlocks.size(); i++) {
-            diffBlocks.get(i).update(k);
-        }
     }
 
     @Override

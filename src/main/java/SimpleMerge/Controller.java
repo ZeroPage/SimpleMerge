@@ -5,6 +5,7 @@ import SimpleMerge.control.EditPanelEventListener;
 import SimpleMerge.control.FileSelector;
 import SimpleMerge.diff.Diff;
 import SimpleMerge.diff.Block;
+import SimpleMerge.diff.Merger;
 import SimpleMerge.util.Pair;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,18 +18,18 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
     @FXML
-    private ListView<AnchorPane> textView;
-
-    @FXML
     private EditPanel leftEditPanel, rightEditPanel;
 
     @FXML
     private Button compare, leftMerge, rightMerge;
+
+    private Merger<String> merger;
 
     private void updateCompareButtonStateIfNeeded() {
         compare.setDisable(leftEditPanel.getText().length() == 0 || rightEditPanel.getText().length() == 0);
@@ -119,8 +120,8 @@ public class Controller implements Initializable {
     public void compare(ActionEvent actionEvent) {
         leftEditPanel.resetStyle();
         rightEditPanel.resetStyle();
-        List<String> l = Arrays.asList(leftEditPanel.getText().split("\n", -1));
-        List<String> r = Arrays.asList(rightEditPanel.getText().split("\n", -1));
+        List<String> l = new LinkedList<>(Arrays.asList(leftEditPanel.getText().split("\n", -1)));
+        List<String> r = new LinkedList<>(Arrays.asList(rightEditPanel.getText().split("\n", -1)));
         Diff<String> diff = new Diff<>();
         diff.compare(l, r);
         Pair<List<Block>> diffBlockPair = diff.getDiffBlocks();
@@ -129,29 +130,51 @@ public class Controller implements Initializable {
             System.out.println("No diff blocks!");
             return;
         }
-        leftEditPanel.startCompare(diffBlockPair.first);
-        rightEditPanel.startCompare(diffBlockPair.second);
-        leftMerge.setDisable(false);
-        rightMerge.setDisable(false);
+        merger = new Merger<>(l, r, diffBlockPair);
+        merger.setMergeEventListener(new Merger.MergeEventListener() {
+            @Override
+            public void onStart() {
+                leftMerge.setDisable(false);
+                rightMerge.setDisable(false);
+            }
+            @Override
+            public void onEnd() {
+                leftMerge.setDisable(true);
+                rightMerge.setDisable(true);
+            }
+        });
+        merger.setOnUpdateBlockStyleFirst(new Merger.UpdateBlockStyleEventListener() {
+            @Override
+            public void onUpdateBlockStyle(Block block, int blockStyle) {
+                leftEditPanel.updateBlockStyle(block, blockStyle);
+            }
+        });
+        merger.setOnUpdateBlockStyleSecond(new Merger.UpdateBlockStyleEventListener() {
+            @Override
+            public void onUpdateBlockStyle(Block block, int blockStyle) {
+                rightEditPanel.updateBlockStyle(block, blockStyle);
+            }
+        });
+        merger.setOnUpdateItemsFirst(new Merger.UpdateItemsEventListener<String>() {
+            @Override
+            public void onUpdateItems(Block block, List<String> items, boolean includeLastItem) {
+                leftEditPanel.updateText(block, items, includeLastItem);
+            }
+        });
+        merger.setOnUpdateItemsSecond(new Merger.UpdateItemsEventListener<String>() {
+            @Override
+            public void onUpdateItems(Block block, List<String> items, boolean includeLastItem) {
+                rightEditPanel.updateText(block, items, includeLastItem);
+            }
+        });
+        merger.start();
     }
 
     public void copyToLeft(ActionEvent actionEvent) {
-        merge(rightEditPanel, leftEditPanel);
+        merger.mergeWithSecondItem();
     }
 
     public void copyToRight(ActionEvent actionEvent) {
-        merge(leftEditPanel, rightEditPanel);
-    }
-
-    private void merge(EditPanel from, EditPanel to) {
-        to.replaceFocusedText(from.getFocusedText());
-        if (!(to.moveFocusToNext() & from.moveFocusToNext())) {
-           finishMerge();
-        }
-    }
-
-    private void finishMerge() {
-        leftMerge.setDisable(true);
-        rightMerge.setDisable(true);
+        merger.mergeWithFirstItem();
     }
 }
