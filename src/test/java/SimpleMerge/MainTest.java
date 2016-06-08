@@ -3,6 +3,7 @@ package SimpleMerge;
 import SimpleMerge.control.EditPanel;
 import SimpleMerge.control.FileSelector;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
 import org.fxmisc.richtext.InlineCssTextArea;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +15,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Paths;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.testfx.api.FxAssert.verifyThat;
@@ -111,6 +113,33 @@ public class MainTest {
             ta.getStyleAtPosition(0, 0).equals(EditPanel.BlockStyle.Focused) &&
             ta.getStyleAtPosition(1, 0).equals(EditPanel.BlockStyle.Identical) &&
             ta.getStyleAtPosition(2, 0).equals(EditPanel.BlockStyle.Diff));
+    }
+    @Test
+    public void editTextArea(){
+        fx.clickOn("#leftEditPanel #edit");
+
+
+
+        fx.clickOn("#leftEditPanel #textArea");
+        //error
+        //fx.type(KeyCode.getKeyCode("ack"));
+        //((EditPanel)fx.lookup("#leftEditPanel").query()).setAccessibleText("ack");
+
+        verifyThat("#leftEditPanel #textArea", (InlineCssTextArea ta) -> ta.getText(0).equals("ack"));
+
+    }
+    @Test
+    public void saveTextArea(){
+        setMockFileSelector("#leftEditPanel", "SimpleMerge/diff/multiline-1-A.txt");
+        fx.clickOn("#leftEditPanel #load");
+        fx.clickOn("#leftEditPanel #save");
+    }
+    @Test
+    public void loadTextArea(){
+        setMockFileSelector("#leftEditPanel", "SimpleMerge/diff/multiline-1-A.txt");
+        fx.clickOn("#leftEditPanel #load");
+        String leftText = ((EditPanel)fx.lookup("#leftEditPanel").query()).getText();
+        assertNotNull(leftText);
     }
 
     @Test
