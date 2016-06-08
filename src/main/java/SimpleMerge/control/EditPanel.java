@@ -166,29 +166,6 @@ public class EditPanel extends VBox implements Initializable{
         return textArea.getText();
     }
 
-
-    private void setAsFocused(Block block) {
-        String[] splitted = textArea.getText().split("\n", -1);
-        int start = 0, end = 0;
-        for (int i = 0; i < block.start(); i++) {
-            start += splitted[i].length() + 1;
-        }
-        for (int i = 0 ; i < block.end(); i++) {
-            end += splitted[i].length() + 1;
-        }
-        textArea.selectRange(start, end);
-    }
-
-    private void setAsIdentical(int index) {
-        textArea.setStyle(index, "-fx-fill: black");
-    }
-
-    private void setAsMerged(Block block) {
-        for (int i = block.start(); i < block.end(); i++) {
-            textArea.setStyle(i, "-fx-fill: green");
-        }
-    }
-
     public void resetStyle() {
         for (int i = 0; i < textArea.getText().split("\n", -1).length; i++) {
             textArea.setStyle(i, "-fx-fill: black");
