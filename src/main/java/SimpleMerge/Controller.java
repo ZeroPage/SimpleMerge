@@ -30,10 +30,8 @@ public class Controller implements Initializable {
     @FXML
     private Button compare, leftMerge, rightMerge;
 
-    private String leftEditPanelText, rightEditPanelText;
-
     private void updateCompareButtonStateIfNeeded() {
-        compare.setDisable(leftEditPanelText == null || rightEditPanelText == null);
+        compare.setDisable(leftEditPanel.getText().length() == 0 || rightEditPanel.getText().length() == 0);
     }
 
     @Override
@@ -41,7 +39,6 @@ public class Controller implements Initializable {
         leftEditPanel.setEventListener(new EditPanelEventListener() {
             @Override
             public void onLoad() {
-                leftEditPanelText = leftEditPanel.getText();
                 updateCompareButtonStateIfNeeded();
             }
 
@@ -81,7 +78,6 @@ public class Controller implements Initializable {
         rightEditPanel.setEventListener(new EditPanelEventListener() {
             @Override
             public void onLoad() {
-                rightEditPanelText = rightEditPanel.getText();
                 updateCompareButtonStateIfNeeded();
             }
 
@@ -123,10 +119,8 @@ public class Controller implements Initializable {
     public void compare(ActionEvent actionEvent) {
         leftEditPanel.resetStyle();
         rightEditPanel.resetStyle();
-        leftEditPanelText = leftEditPanel.getText();
-        rightEditPanelText = rightEditPanel.getText();
-        List<String> l = Arrays.asList(leftEditPanelText.split("\n", -1));
-        List<String> r = Arrays.asList(rightEditPanelText.split("\n", -1));
+        List<String> l = Arrays.asList(leftEditPanel.getText().split("\n", -1));
+        List<String> r = Arrays.asList(rightEditPanel.getText().split("\n", -1));
         Diff<String> diff = new Diff<>();
         diff.compare(l, r);
         Pair<List<Block>> diffBlockPair = diff.getDiffBlocks();
