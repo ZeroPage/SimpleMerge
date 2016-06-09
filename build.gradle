@@ -21,6 +21,14 @@ dependencies {
 }
 
 compileJava {
+    options.fork = true
+    options.encoding = 'UTF-8'
+    options.compilerArgs << "-Xlint"
+    options.incremental = true
+}
+
+compileTestJava {
+    options.fork = true
     options.encoding = 'UTF-8'
     options.compilerArgs << "-Xlint"
     options.incremental = true
