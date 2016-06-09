@@ -10,7 +10,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 
@@ -27,7 +26,7 @@ public class FileHelperTest {
         protected void before() throws Throwable {
             super.before();
             lorem = Paths.get(this.getClass().getClassLoader().getResource("Lorem.txt").toURI());
-            contents = Files.readAllLines(lorem, StandardCharsets.UTF_8).parallelStream().collect(Collectors.joining("\n"));
+            contents = new String(Files.readAllBytes(lorem), StandardCharsets.UTF_8);
         }
 
         @Override
@@ -47,7 +46,6 @@ public class FileHelperTest {
 
     @Test
     public void load() throws Exception {
-        // FIXME : Files.readAllLines remove last blank lines, so it make not equals
         String str = FileHelper.load(lorem.toFile());
         assertEquals(contents, str);
     }
