@@ -53,7 +53,7 @@ public class Controller implements Initializable {
 
             @Override
             public void onTextChanged() {
-                // Not Implemented.
+                updateCompareButtonStateIfNeeded();
             }
         });
         leftEditPanel.setFileSelector(new FileSelector() {
@@ -92,7 +92,7 @@ public class Controller implements Initializable {
 
             @Override
             public void onTextChanged() {
-                // Not Implemented.
+                updateCompareButtonStateIfNeeded();
             }
         });
         rightEditPanel.setFileSelector(new FileSelector() {

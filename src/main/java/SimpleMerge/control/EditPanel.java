@@ -197,6 +197,7 @@ public class EditPanel extends VBox implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         textArea.setPrefSize(1000, 1000);
+        textArea.textProperty().addListener((observable, oldValue, newValue) -> emitTextChanged());
     }
 
     public static class BlockStyle {
