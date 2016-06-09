@@ -2,8 +2,8 @@ package SimpleMerge;
 
 import SimpleMerge.control.EditPanel;
 import SimpleMerge.control.FileSelector;
+import SimpleMerge.diff.Merger;
 import javafx.scene.control.Button;
-import javafx.scene.input.KeyCode;
 import org.fxmisc.richtext.InlineCssTextArea;
 import org.junit.Before;
 import org.junit.Test;
@@ -104,15 +104,15 @@ public class MainTest {
         fx.clickOn("#compare");
 
         verifyThat("#leftEditPanel #textArea", (InlineCssTextArea ta) ->
-            ta.getStyleAtPosition(0, 0).equals(EditPanel.BlockStyle.Focused) &&
-            ta.getStyleAtPosition(1, 0).equals(EditPanel.BlockStyle.Focused) &&
-            ta.getStyleAtPosition(2, 0).equals(EditPanel.BlockStyle.Identical) &&
-            ta.getStyleAtPosition(3, 0).equals(EditPanel.BlockStyle.Diff));
+            ta.getStyleAtPosition(0, 0).equals(Merger.BlockState.FOCUSED) &&
+            ta.getStyleAtPosition(1, 0).equals(Merger.BlockState.FOCUSED) &&
+            ta.getStyleAtPosition(2, 0).equals(Merger.BlockState.IDENTICAL) &&
+            ta.getStyleAtPosition(3, 0).equals(Merger.BlockState.DIFF));
 
         verifyThat("#rightEditPanel #textArea", (InlineCssTextArea ta) ->
-            ta.getStyleAtPosition(0, 0).equals(EditPanel.BlockStyle.Focused) &&
-            ta.getStyleAtPosition(1, 0).equals(EditPanel.BlockStyle.Identical) &&
-            ta.getStyleAtPosition(2, 0).equals(EditPanel.BlockStyle.Diff));
+            ta.getStyleAtPosition(0, 0).equals(Merger.BlockState.FOCUSED) &&
+            ta.getStyleAtPosition(1, 0).equals(Merger.BlockState.IDENTICAL) &&
+            ta.getStyleAtPosition(2, 0).equals(Merger.BlockState.DIFF));
     }
     @Test
     public void editTextArea(){

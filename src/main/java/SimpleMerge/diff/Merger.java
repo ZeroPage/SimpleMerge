@@ -5,28 +5,12 @@ import SimpleMerge.util.Pair;
 import java.util.List;
 
 public class Merger<T extends Comparable<T>> {
-    public interface MergeEventListener {
-        void onStart();
-        void onEnd();
-    }
-    public interface UpdateBlockStyleEventListener {
-        void onUpdateBlockStyle(Block block, int blockStyle);
-    }
-    public interface UpdateItemsEventListener<T> {
-        void onUpdateItems(Block block, List<T> items, boolean includeLastItem);
-    }
     private List<T> firstItems, secondItems;
     private List<Block> firstBlocks, secondBlocks;
     private int focusedBlock;
-
     private MergeEventListener mergeEventListener;
     private UpdateBlockStyleEventListener updateBlockStyleFirstEventListener, updateBlockStyleSecondEventListener;
     private UpdateItemsEventListener<T> updateItemsFirstEventListener, updateItemsSecondEventListener;
-
-    public static final int BlockStyleIdentical = 1;
-    public static final int BlockStyleMerged = 2;
-    public static final int BlockStyleDiff = 3;
-    public static final int BlockStyleFocused = 4;
 
     public Merger(List<T> firstItems, List<T> secondItems, Pair<List<Block>> diffBlocks) {
         this.firstItems = firstItems;
@@ -41,11 +25,11 @@ public class Merger<T extends Comparable<T>> {
         emitUpdateItemsFirst(firstItems, new Block(0, firstItems.size() - 1));
         emitUpdateItemsSecond(firstItems, new Block(0, firstItems.size() - 1));
         */
-        emitUpdateBlockStyleFirst(firstBlocks.get(0), BlockStyleFocused);
-        emitUpdateBlockStyleSecond(secondBlocks.get(0), BlockStyleFocused);
+        emitUpdateBlockStyleFirst(firstBlocks.get(0), BlockState.IDENTICAL);
+        emitUpdateBlockStyleSecond(secondBlocks.get(0), BlockState.FOCUSED);
         for (int i = 1; i < firstBlocks.size(); i++) {
-            emitUpdateBlockStyleFirst(firstBlocks.get(i), BlockStyleDiff);
-            emitUpdateBlockStyleSecond(secondBlocks.get(i), BlockStyleDiff);
+            emitUpdateBlockStyleFirst(firstBlocks.get(i), BlockState.FOCUSED);
+            emitUpdateBlockStyleSecond(secondBlocks.get(i), BlockState.FOCUSED);
         }
         emitMergeStart();
     }
@@ -60,8 +44,8 @@ public class Merger<T extends Comparable<T>> {
     }
 
     public void mergeWithFirstItem() {
-        emitUpdateBlockStyleFirst(firstBlocks.get(focusedBlock), BlockStyleIdentical);
-        emitUpdateBlockStyleSecond(secondBlocks.get(focusedBlock), BlockStyleIdentical);
+        emitUpdateBlockStyleFirst(firstBlocks.get(focusedBlock), BlockState.IDENTICAL);
+        emitUpdateBlockStyleSecond(secondBlocks.get(focusedBlock), BlockState.IDENTICAL);
         mergeFocusedItem(
             firstItems,
             secondItems,
@@ -73,8 +57,8 @@ public class Merger<T extends Comparable<T>> {
     }
 
     public void mergeWithSecondItem() {
-        emitUpdateBlockStyleFirst(firstBlocks.get(focusedBlock), BlockStyleIdentical);
-        emitUpdateBlockStyleSecond(secondBlocks.get(focusedBlock), BlockStyleIdentical);
+        emitUpdateBlockStyleFirst(firstBlocks.get(focusedBlock), BlockState.IDENTICAL);
+        emitUpdateBlockStyleSecond(secondBlocks.get(focusedBlock), BlockState.IDENTICAL);
         mergeFocusedItem(
             secondItems,
             firstItems,
@@ -92,8 +76,8 @@ public class Merger<T extends Comparable<T>> {
         if (focusedBlock < 0) {
             emitMergeEnd();
         } else {
-            emitUpdateBlockStyleFirst(firstBlocks.get(focusedBlock), BlockStyleFocused);
-            emitUpdateBlockStyleSecond(secondBlocks.get(focusedBlock), BlockStyleFocused);
+            emitUpdateBlockStyleFirst(firstBlocks.get(focusedBlock), BlockState.FOCUSED);
+            emitUpdateBlockStyleSecond(secondBlocks.get(focusedBlock), BlockState.FOCUSED);
         }
     }
 
@@ -103,10 +87,11 @@ public class Merger<T extends Comparable<T>> {
             to.get(i).update(fromBlockSize - toBlockSize);
         }
         Block mergedBlock = new Block(to.get(focusedBlock).start(), to.get(focusedBlock).start() + fromBlockSize);
-        eventListener.onUpdateBlockStyle(mergedBlock, BlockStyleMerged);
+        eventListener.onUpdateBlockStyle(mergedBlock, BlockState.MERGED);
         from.remove(focusedBlock);
         to.remove(focusedBlock);
     }
+
     private void mergeFocusedItem(List<T> fromItems, List<T> toItems, Block fromBlock, Block toBlock, UpdateItemsEventListener<T> eventListener) {
         for (int i = toBlock.end() - 1; i >= toBlock.start(); i--) {
             toItems.remove(i);
@@ -120,36 +105,43 @@ public class Merger<T extends Comparable<T>> {
     public void setMergeEventListener(MergeEventListener eventListener) {
         mergeEventListener = eventListener;
     }
+
     private void emitMergeStart() {
         if (mergeEventListener != null) {
             mergeEventListener.onStart();
         }
     }
+
     private void emitMergeEnd() {
         if (mergeEventListener != null) {
             mergeEventListener.onEnd();
         }
     }
+
     public void setOnUpdateBlockStyleFirst(UpdateBlockStyleEventListener eventListener) {
         updateBlockStyleFirstEventListener = eventListener;
     }
-    private void emitUpdateBlockStyleFirst(Block block, int blockStyle) {
+
+    private void emitUpdateBlockStyleFirst(Block block, BlockState blockState) {
         if (updateBlockStyleFirstEventListener != null) {
-            updateBlockStyleFirstEventListener.onUpdateBlockStyle(block, blockStyle);
+            updateBlockStyleFirstEventListener.onUpdateBlockStyle(block, blockState);
         }
     }
+
     public void setOnUpdateBlockStyleSecond(UpdateBlockStyleEventListener eventListener) {
         updateBlockStyleSecondEventListener = eventListener;
     }
-    private void emitUpdateBlockStyleSecond(Block block, int blockStyle) {
+
+    private void emitUpdateBlockStyleSecond(Block block, BlockState blockState) {
         if (updateBlockStyleSecondEventListener != null) {
-            updateBlockStyleSecondEventListener.onUpdateBlockStyle(block, blockStyle);
+            updateBlockStyleSecondEventListener.onUpdateBlockStyle(block, blockState);
         }
     }
 
     public void setOnUpdateItemsFirst(UpdateItemsEventListener<T> eventListener) {
         updateItemsFirstEventListener = eventListener;
     }
+
     public void emitUpdateItemsFirst(Block block, List<T> items, boolean includeLastItem) {
         if (updateItemsFirstEventListener != null) {
             updateItemsFirstEventListener.onUpdateItems(block, items, includeLastItem);
@@ -159,10 +151,29 @@ public class Merger<T extends Comparable<T>> {
     public void setOnUpdateItemsSecond(UpdateItemsEventListener<T> eventListener) {
         updateItemsSecondEventListener = eventListener;
     }
+
     public void emitUpdateItemsSecond(Block block, List<T> items, boolean includeLastItem) {
         if (updateItemsSecondEventListener != null) {
             updateItemsSecondEventListener.onUpdateItems(block, items, includeLastItem);
         }
+    }
+
+    public enum BlockState {
+        IDENTICAL, MERGED, DIFF, FOCUSED;
+    }
+
+    public interface MergeEventListener {
+        void onStart();
+
+        void onEnd();
+    }
+
+    public interface UpdateBlockStyleEventListener {
+        void onUpdateBlockStyle(Block block, BlockState style);
+    }
+
+    public interface UpdateItemsEventListener<T> {
+        void onUpdateItems(Block block, List<T> items, boolean includeLastItem);
     }
 
 }

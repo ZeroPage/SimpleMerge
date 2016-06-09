@@ -1,6 +1,7 @@
 package SimpleMerge.control;
 
 import SimpleMerge.diff.Block;
+import SimpleMerge.diff.Merger;
 import SimpleMerge.util.FileHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +16,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -34,9 +38,9 @@ public class EditPanel extends VBox implements Initializable{
 
     private File currentOpenFile;
 
-    public void updateBlockStyle(Block block, int blockStyle) {
+    public void updateBlockStyle(Block block, Merger.BlockState blockState) {
         for (int i = block.start(); i < block.end(); i++) {
-            textArea.setStyle(i, BlockStyle.getById(blockStyle));
+            textArea.setStyle(i, BlockStyle.getCssById(blockState));
         }
     }
 
@@ -45,23 +49,18 @@ public class EditPanel extends VBox implements Initializable{
     }
 
     public static class BlockStyle {
-        public static String Identical = "-fx-fill: black";
-        public static String Merged = "-fx-background-fill: lightgreen;";
-        public static String Diff = "-fx-background-fill: yellow;";
-        public static String Focused = "-fx-background-fill: lightblue;";
-
-        public static String getById(int id) {
-            switch (id) {
-                case 1:
-                    return Identical;
-                case 2:
-                    return Merged;
-                case 3:
-                    return Diff;
-                case 4:
-                    return Focused;
+        public static String getCssById(Merger.BlockState blockState) {
+            switch (blockState) {
+                case IDENTICAL:
+                    return "-fx-fill: black;";
+                case MERGED:
+                    return "-fx-background-fill: lightgreen;";
+                case DIFF:
+                    return "-fx-background-fill: yellow;";
+                case FOCUSED:
+                    return "-fx-background-fill: lightblue;";
                 default:
-                    throw new RuntimeException("Undefined BlockStyle id: " + id);
+                    throw new RuntimeException("Undefined BlockStyle id : " + blockState);
             }
         }
     }

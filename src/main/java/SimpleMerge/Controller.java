@@ -3,16 +3,14 @@ package SimpleMerge;
 import SimpleMerge.control.EditPanel;
 import SimpleMerge.control.EditPanelEventListener;
 import SimpleMerge.control.FileSelector;
-import SimpleMerge.diff.Diff;
 import SimpleMerge.diff.Block;
+import SimpleMerge.diff.Diff;
 import SimpleMerge.diff.Merger;
 import SimpleMerge.util.Pair;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -145,14 +143,14 @@ public class Controller implements Initializable {
         });
         merger.setOnUpdateBlockStyleFirst(new Merger.UpdateBlockStyleEventListener() {
             @Override
-            public void onUpdateBlockStyle(Block block, int blockStyle) {
-                leftEditPanel.updateBlockStyle(block, blockStyle);
+            public void onUpdateBlockStyle(Block block, Merger.BlockState blockState) {
+                leftEditPanel.updateBlockStyle(block, blockState);
             }
         });
         merger.setOnUpdateBlockStyleSecond(new Merger.UpdateBlockStyleEventListener() {
             @Override
-            public void onUpdateBlockStyle(Block block, int blockStyle) {
-                rightEditPanel.updateBlockStyle(block, blockStyle);
+            public void onUpdateBlockStyle(Block block, Merger.BlockState blockState) {
+                rightEditPanel.updateBlockStyle(block, blockState);
             }
         });
         merger.setOnUpdateItemsFirst(new Merger.UpdateItemsEventListener<String>() {

@@ -7,10 +7,8 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 public class MergerTest {
     private static List<String> first;
@@ -48,8 +46,8 @@ public class MergerTest {
         stringMerger.setOnUpdateBlockStyleFirst(updateBlockStyleEventListenerFirst);
         stringMerger.setOnUpdateBlockStyleSecond(updateBlockStyleEventListenerSecond);
         stringMerger.start();
-        verify(updateBlockStyleEventListenerFirst).onUpdateBlockStyle(new Block(1, 2), Merger.BlockStyleFocused);
-        verify(updateBlockStyleEventListenerSecond).onUpdateBlockStyle(new Block(1, 4), Merger.BlockStyleFocused);
+        verify(updateBlockStyleEventListenerFirst).onUpdateBlockStyle(new Block(1, 2), Merger.BlockState.FOCUSED);
+        verify(updateBlockStyleEventListenerSecond).onUpdateBlockStyle(new Block(1, 4), Merger.BlockState.FOCUSED);
     }
 
     @Test
@@ -66,18 +64,18 @@ public class MergerTest {
         stringMerger.setOnUpdateBlockStyleSecond(updateBlockStyleEventListenerSecond);
 
         stringMerger.start();
-        verify(updateBlockStyleEventListenerFirst).onUpdateBlockStyle(new Block(1, 2), Merger.BlockStyleFocused);
-        verify(updateBlockStyleEventListenerSecond).onUpdateBlockStyle(new Block(1, 4), Merger.BlockStyleFocused);
+        verify(updateBlockStyleEventListenerFirst).onUpdateBlockStyle(new Block(1, 2), Merger.BlockState.FOCUSED);
+        verify(updateBlockStyleEventListenerSecond).onUpdateBlockStyle(new Block(1, 4), Merger.BlockState.FOCUSED);
 
         stringMerger.mergeWithFirstItem();
-        verify(updateBlockStyleEventListenerFirst).onUpdateBlockStyle(new Block(1, 2), Merger.BlockStyleIdentical);
-        verify(updateBlockStyleEventListenerFirst).onUpdateBlockStyle(new Block(3, 4), Merger.BlockStyleFocused);
+        verify(updateBlockStyleEventListenerFirst).onUpdateBlockStyle(new Block(1, 2), Merger.BlockState.IDENTICAL);
+        verify(updateBlockStyleEventListenerFirst).onUpdateBlockStyle(new Block(3, 4), Merger.BlockState.FOCUSED);
 
-        verify(updateBlockStyleEventListenerSecond).onUpdateBlockStyle(new Block(1, 4), Merger.BlockStyleIdentical);
+        verify(updateBlockStyleEventListenerSecond).onUpdateBlockStyle(new Block(1, 4), Merger.BlockState.IDENTICAL);
         verify(updateItemsEventListenerSecond).onUpdateItems(new Block(1, 4), new ArrayList<String>(){{
             add("2");
         }}, false);
-        verify(updateBlockStyleEventListenerSecond).onUpdateBlockStyle(new Block(1, 2), Merger.BlockStyleMerged);
-        verify(updateBlockStyleEventListenerSecond).onUpdateBlockStyle(new Block(3, 5), Merger.BlockStyleFocused);
+        verify(updateBlockStyleEventListenerSecond).onUpdateBlockStyle(new Block(1, 2), Merger.BlockState.MERGED);
+        verify(updateBlockStyleEventListenerSecond).onUpdateBlockStyle(new Block(3, 5), Merger.BlockState.FOCUSED);
     }
 }
