@@ -123,7 +123,7 @@ public class EditPanel extends VBox implements Initializable{
         textArea.setEditable(false);
         String content = textArea.getText();
 
-        if(pathLabel.getText().equals("")){
+        if(pathLabel.getText().isEmpty()){
             saveAs(content);
         }
         else{
