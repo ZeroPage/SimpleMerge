@@ -45,7 +45,14 @@ public class EditPanel extends VBox implements Initializable{
     }
 
     public void updateText(Block block, List<String> items, boolean includeLastItem) {
-        textArea.replaceText(calculateIndexRange(block), String.join("\n", items) + (includeLastItem == true ? "" : "\n"));
+        if (block.start() == textArea.getText().split("\n", -1).length) {
+            textArea.appendText("\n");
+        }
+        textArea.replaceText(calculateIndexRange(block), String.join("\n", items) + (includeLastItem || (items.size() == 0) ? "" : "\n"));
+        if (items.size() == 0 && includeLastItem) {
+            int lastNewlineIndex = textArea.getLength() - 1;
+            textArea.deleteText(lastNewlineIndex, lastNewlineIndex + 1);
+        }
     }
 
     private void emitLoad() {
@@ -183,7 +190,7 @@ public class EditPanel extends VBox implements Initializable{
             if (i < block.start()) {
                 start += splitted[i].length();
                 if (i < splitted.length - 1) {
-                    start +=1;
+                    start += 1;
                 }
             }
             end += splitted[i].length();
