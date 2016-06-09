@@ -32,7 +32,7 @@ public class MainTest {
     @AfterClass
     public static void tearDownClass() throws TimeoutException {
         FxToolkit.hideStage();
-        Platform.setImplicitExit(true);
+        Platform.setImplicitExit(false);
     }
 
     @Before
