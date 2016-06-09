@@ -48,23 +48,6 @@ public class EditPanel extends VBox implements Initializable{
         textArea.replaceText(calculateIndexRange(block), String.join("\n", items) + (includeLastItem == true ? "" : "\n"));
     }
 
-    public static class BlockStyle {
-        public static String getCssById(Merger.BlockState blockState) {
-            switch (blockState) {
-                case IDENTICAL:
-                    return "-fx-fill: black;";
-                case MERGED:
-                    return "-fx-background-fill: lightgreen;";
-                case DIFF:
-                    return "-fx-background-fill: yellow;";
-                case FOCUSED:
-                    return "-fx-background-fill: lightblue;";
-                default:
-                    throw new RuntimeException("Undefined BlockStyle id : " + blockState);
-            }
-        }
-    }
-
     private void emitLoad() {
         if (eventListener == null)
             return;
@@ -189,7 +172,7 @@ public class EditPanel extends VBox implements Initializable{
 
     public void resetStyle() {
         for (int i = 0; i < textArea.getText().split("\n", -1).length; i++) {
-            textArea.setStyle(i, "-fx-fill: black");
+            textArea.setStyle(i, BlockStyle.getCssById(Merger.BlockState.IDENTICAL));
         }
     }
 
@@ -214,5 +197,22 @@ public class EditPanel extends VBox implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         textArea.setPrefSize(1000, 1000);
+    }
+
+    public static class BlockStyle {
+        public static String getCssById(Merger.BlockState blockState) {
+            switch (blockState) {
+                case IDENTICAL:
+                    return "-fx-fill: black;";
+                case MERGED:
+                    return "-fx-background-fill: lightgreen;";
+                case DIFF:
+                    return "-fx-background-fill: yellow;";
+                case FOCUSED:
+                    return "-fx-background-fill: lightblue;";
+                default:
+                    throw new RuntimeException("Undefined BlockStyle id : " + blockState);
+            }
+        }
     }
 }

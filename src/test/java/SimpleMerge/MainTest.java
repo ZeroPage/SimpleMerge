@@ -3,16 +3,17 @@ package SimpleMerge;
 import SimpleMerge.control.EditPanel;
 import SimpleMerge.control.FileSelector;
 import SimpleMerge.diff.Merger;
+import javafx.application.Platform;
 import javafx.scene.control.Button;
 import org.fxmisc.richtext.InlineCssTextArea;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
+import java.util.concurrent.TimeoutException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -23,10 +24,26 @@ import static org.testfx.api.FxAssert.verifyThat;
 public class MainTest {
     FxRobot fx = new FxRobot();
 
+    @BeforeClass
+    public static void setUpClass() throws TimeoutException {
+        FxToolkit.registerPrimaryStage();
+    }
+
+    @AfterClass
+    public static void tearDownClass() throws TimeoutException {
+        FxToolkit.hideStage();
+        Platform.setImplicitExit(true);
+    }
+
     @Before
     public void setup() throws Exception {
-        FxToolkit.registerPrimaryStage();
         FxToolkit.setupApplication(Main.class);
+        FxToolkit.showStage();
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        FxToolkit.hideStage();
     }
 
     // Side-by-Side edit panels.
@@ -56,7 +73,7 @@ public class MainTest {
         verifyThat("#rightMerge", (Button b) -> b.isDisabled() && b.getText().equals("Copy to Right"));
     }
 
-     private void setMockFileSelector(String editPanelId, String resourcePath) {
+    private void setMockFileSelector(String editPanelId, String resourcePath) {
         FileSelector fileSelector = mock(FileSelector.class);
         try {
             URI resourceURI = this.getClass().getClassLoader().getResource(resourcePath).toURI();
@@ -104,41 +121,37 @@ public class MainTest {
         fx.clickOn("#compare");
 
         verifyThat("#leftEditPanel #textArea", (InlineCssTextArea ta) ->
-            ta.getStyleAtPosition(0, 0).equals(Merger.BlockState.FOCUSED) &&
-            ta.getStyleAtPosition(1, 0).equals(Merger.BlockState.FOCUSED) &&
-            ta.getStyleAtPosition(2, 0).equals(Merger.BlockState.IDENTICAL) &&
-            ta.getStyleAtPosition(3, 0).equals(Merger.BlockState.DIFF));
+            ta.getStyleAtPosition(0, 0).equals(EditPanel.BlockStyle.getCssById(Merger.BlockState.FOCUSED)) &&
+                ta.getStyleAtPosition(1, 0).equals(EditPanel.BlockStyle.getCssById(Merger.BlockState.FOCUSED)) &&
+                ta.getStyleAtPosition(2, 0).equals(EditPanel.BlockStyle.getCssById(Merger.BlockState.IDENTICAL)) &&
+                ta.getStyleAtPosition(3, 0).equals(EditPanel.BlockStyle.getCssById(Merger.BlockState.DIFF)));
 
         verifyThat("#rightEditPanel #textArea", (InlineCssTextArea ta) ->
-            ta.getStyleAtPosition(0, 0).equals(Merger.BlockState.FOCUSED) &&
-            ta.getStyleAtPosition(1, 0).equals(Merger.BlockState.IDENTICAL) &&
-            ta.getStyleAtPosition(2, 0).equals(Merger.BlockState.DIFF));
+            ta.getStyleAtPosition(0, 0).equals(EditPanel.BlockStyle.getCssById(Merger.BlockState.FOCUSED)) &&
+                ta.getStyleAtPosition(1, 0).equals(EditPanel.BlockStyle.getCssById(Merger.BlockState.IDENTICAL)) &&
+                ta.getStyleAtPosition(2, 0).equals(EditPanel.BlockStyle.getCssById(Merger.BlockState.DIFF)));
     }
+
     @Test
-    public void editTextArea(){
+    public void editTextArea() {
         fx.clickOn("#leftEditPanel #edit");
-
-
-
-        fx.clickOn("#leftEditPanel #textArea");
-        //error
-        //fx.type(KeyCode.getKeyCode("ack"));
-        //((EditPanel)fx.lookup("#leftEditPanel").query()).setAccessibleText("ack");
-
+        fx.clickOn("#leftEditPanel #textArea").write("ack");
         verifyThat("#leftEditPanel #textArea", (InlineCssTextArea ta) -> ta.getText(0).equals("ack"));
 
     }
+
     @Test
-    public void saveTextArea(){
+    public void saveTextArea() {
         setMockFileSelector("#leftEditPanel", "SimpleMerge/diff/multiline-1-A.txt");
         fx.clickOn("#leftEditPanel #load");
         fx.clickOn("#leftEditPanel #save");
     }
+
     @Test
-    public void loadTextArea(){
+    public void loadTextArea() {
         setMockFileSelector("#leftEditPanel", "SimpleMerge/diff/multiline-1-A.txt");
         fx.clickOn("#leftEditPanel #load");
-        String leftText = ((EditPanel)fx.lookup("#leftEditPanel").query()).getText();
+        String leftText = ((EditPanel) fx.lookup("#leftEditPanel").query()).getText();
         assertNotNull(leftText);
     }
 
@@ -152,8 +165,8 @@ public class MainTest {
         fx.clickOn("#leftMerge");
         fx.clickOn("#leftMerge");
 
-        String leftText = ((EditPanel)fx.lookup("#leftEditPanel").query()).getText();
-        String rightText = ((EditPanel)fx.lookup("#rightEditPanel").query()).getText();
+        String leftText = ((EditPanel) fx.lookup("#leftEditPanel").query()).getText();
+        String rightText = ((EditPanel) fx.lookup("#rightEditPanel").query()).getText();
         assertEquals(leftText, rightText);
     }
 
@@ -167,8 +180,8 @@ public class MainTest {
         fx.clickOn("#rightMerge");
         fx.clickOn("#rightMerge");
 
-        String leftText = ((EditPanel)fx.lookup("#leftEditPanel").query()).getText();
-        String rightText = ((EditPanel)fx.lookup("#rightEditPanel").query()).getText();
+        String leftText = ((EditPanel) fx.lookup("#leftEditPanel").query()).getText();
+        String rightText = ((EditPanel) fx.lookup("#rightEditPanel").query()).getText();
         assertEquals(leftText, rightText);
     }
 }

@@ -25,11 +25,11 @@ public class Merger<T extends Comparable<T>> {
         emitUpdateItemsFirst(firstItems, new Block(0, firstItems.size() - 1));
         emitUpdateItemsSecond(firstItems, new Block(0, firstItems.size() - 1));
         */
-        emitUpdateBlockStyleFirst(firstBlocks.get(0), BlockState.IDENTICAL);
+        emitUpdateBlockStyleFirst(firstBlocks.get(0), BlockState.FOCUSED);
         emitUpdateBlockStyleSecond(secondBlocks.get(0), BlockState.FOCUSED);
         for (int i = 1; i < firstBlocks.size(); i++) {
-            emitUpdateBlockStyleFirst(firstBlocks.get(i), BlockState.FOCUSED);
-            emitUpdateBlockStyleSecond(secondBlocks.get(i), BlockState.FOCUSED);
+            emitUpdateBlockStyleFirst(firstBlocks.get(i), BlockState.DIFF);
+            emitUpdateBlockStyleSecond(secondBlocks.get(i), BlockState.DIFF);
         }
         emitMergeStart();
     }
