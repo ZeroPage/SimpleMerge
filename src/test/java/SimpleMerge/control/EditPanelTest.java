@@ -1,5 +1,6 @@
 package SimpleMerge.control;
 
+import SimpleMerge.Config;
 import javafx.application.Platform;
 import org.junit.*;
 import org.junit.rules.ExternalResource;
@@ -55,6 +56,7 @@ public class EditPanelTest {
         when(fileSelector.getFile()).thenReturn(path.toFile());
         editPanel.setFileSelector(fileSelector);
 
+        FxToolkit.setupStage(stage -> Config.setWindowConstraints(stage));
         FxToolkit.setupSceneRoot(() -> editPanel);
         FxToolkit.showStage();
     }
