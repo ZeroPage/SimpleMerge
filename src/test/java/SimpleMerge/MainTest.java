@@ -184,4 +184,34 @@ public class MainTest {
         String rightText = ((EditPanel) fx.lookup("#rightEditPanel").query()).getText();
         assertEquals(leftText, rightText);
     }
+
+    @Test
+    public void shouldMergeCorrectly1() {
+        setMockFileSelector("#leftEditPanel", "SimpleMerge/diff/multiline-2-A.txt"); // aa\nbb
+        setMockFileSelector("#rightEditPanel", "SimpleMerge/diff/multiline-2-B.txt"); // bb\ncc\n
+        fx.clickOn("#leftEditPanel #load");
+        fx.clickOn("#rightEditPanel #load");
+        fx.clickOn("#compare");
+
+        fx.clickOn("#rightMerge");
+        assertEquals("aa\nbb\ncc\n", ((EditPanel) fx.lookup("#rightEditPanel").query()).getText());
+
+        fx.clickOn("#rightMerge");
+        assertEquals("aa\nbb", ((EditPanel) fx.lookup("#rightEditPanel").query()).getText());
+    }
+
+    @Test
+    public void shouldMergeCorrelectly2() {
+        setMockFileSelector("#leftEditPanel", "SimpleMerge/diff/multiline-2-A.txt"); // aa\nbb
+        setMockFileSelector("#rightEditPanel", "SimpleMerge/diff/multiline-2-B.txt"); // bb\ncc\n
+        fx.clickOn("#leftEditPanel #load");
+        fx.clickOn("#rightEditPanel #load");
+        fx.clickOn("#compare");
+
+        fx.clickOn("#leftMerge");
+        assertEquals("bb", ((EditPanel) fx.lookup("#leftEditPanel").query()).getText());
+
+        fx.clickOn("#leftMerge");
+        assertEquals("bb\ncc\n", ((EditPanel) fx.lookup("#leftEditPanel").query()).getText());
+    }
 }
