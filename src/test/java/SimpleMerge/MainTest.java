@@ -123,12 +123,12 @@ public class MainTest {
         verifyThat("#leftEditPanel #textArea", (InlineCssTextArea ta) ->
             ta.getStyleAtPosition(0, 0).equals(EditPanel.BlockStyle.getCssById(Merger.BlockState.FOCUSED)) &&
                 ta.getStyleAtPosition(1, 0).equals(EditPanel.BlockStyle.getCssById(Merger.BlockState.FOCUSED)) &&
-                ta.getStyleAtPosition(2, 0).equals(EditPanel.BlockStyle.getCssById(Merger.BlockState.IDENTICAL)) &&
+                ta.getStyleAtPosition(2, 0).equals(EditPanel.BlockStyle.getCssById(Merger.BlockState.FOCUS_ASSISTANT)) &&
                 ta.getStyleAtPosition(3, 0).equals(EditPanel.BlockStyle.getCssById(Merger.BlockState.DIFF)));
 
         verifyThat("#rightEditPanel #textArea", (InlineCssTextArea ta) ->
             ta.getStyleAtPosition(0, 0).equals(EditPanel.BlockStyle.getCssById(Merger.BlockState.FOCUSED)) &&
-                ta.getStyleAtPosition(1, 0).equals(EditPanel.BlockStyle.getCssById(Merger.BlockState.IDENTICAL)) &&
+                ta.getStyleAtPosition(1, 0).equals(EditPanel.BlockStyle.getCssById(Merger.BlockState.FOCUS_ASSISTANT)) &&
                 ta.getStyleAtPosition(2, 0).equals(EditPanel.BlockStyle.getCssById(Merger.BlockState.DIFF)));
     }
 
