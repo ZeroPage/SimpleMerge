@@ -5,7 +5,10 @@ package SimpleMerge.control;
  */
 public interface EditPanelEventListener {
     void onLoad();
+
     void onSave();
+
     void onEdit();
+
     void onTextChanged();
 }

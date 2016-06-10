@@ -65,8 +65,9 @@ public class Controller implements Initializable {
                     new FileChooser.ExtensionFilter("All Files", "*.*"));
                 return chooser.showOpenDialog(null);
             }
+
             @Override
-            public File saveFile(){
+            public File saveFile() {
                 FileChooser saveFileChooser = new FileChooser();
                 saveFileChooser.getExtensionFilters().addAll(
                     new FileChooser.ExtensionFilter("text files (*.txt)", "*.txt"),
@@ -104,8 +105,9 @@ public class Controller implements Initializable {
                     new FileChooser.ExtensionFilter("All Files", "*.*"));
                 return chooser.showOpenDialog(null);
             }
+
             @Override
-            public File saveFile(){
+            public File saveFile() {
                 FileChooser saveFileChooser = new FileChooser();
                 saveFileChooser.getExtensionFilters().addAll(
                     new FileChooser.ExtensionFilter("text files (*.txt)", "*.txt"),
@@ -135,6 +137,7 @@ public class Controller implements Initializable {
                 leftMerge.setDisable(false);
                 rightMerge.setDisable(false);
             }
+
             @Override
             public void onEnd() {
                 leftMerge.setDisable(true);

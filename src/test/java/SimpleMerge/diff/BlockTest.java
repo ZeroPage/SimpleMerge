@@ -25,7 +25,7 @@ public class BlockTest {
 
     @Parameterized.Parameters
     public static Collection<Object[]> data() {
-        return Arrays.asList(new Object[][] {
+        return Arrays.asList(new Object[][]{
             {0, 1, 0, 5, 10}, {10, 7, 10, 2, 5}, {3, 6, 23, 12, 4}, {7, 6, 7, 8, 8}, {1, 0, 0, 4, 3}, {7, 9, 1, 4, 1}
         });
     }

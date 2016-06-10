@@ -72,7 +72,7 @@ public class MergerTest {
         verify(updateBlockStyleEventListenerFirst).onUpdateBlockStyle(new Block(3, 4), Merger.BlockState.FOCUSED);
 
         verify(updateBlockStyleEventListenerSecond).onUpdateBlockStyle(new Block(1, 4), Merger.BlockState.IDENTICAL);
-        verify(updateItemsEventListenerSecond).onUpdateItems(new Block(1, 4), new ArrayList<String>(){{
+        verify(updateItemsEventListenerSecond).onUpdateItems(new Block(1, 4), new ArrayList<String>() {{
             add("2");
         }}, false);
         verify(updateBlockStyleEventListenerSecond).onUpdateBlockStyle(new Block(1, 2), Merger.BlockState.MERGED);

@@ -7,18 +7,23 @@ public class Block {
         this.start = start;
         this.end = end;
     }
+
     public int start() {
         return this.start;
     }
+
     public int end() {
         return this.end;
     }
+
     public int size() {
         return this.end - this.start;
     }
+
     public void update(int offset) {
         this.update(offset, offset);
     }
+
     public void update(int startOffset, int endOffset) {
         this.start += startOffset;
         this.end += endOffset;

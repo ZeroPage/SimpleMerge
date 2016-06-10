@@ -4,18 +4,12 @@ import SimpleMerge.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 public class Diff<T extends Comparable<T>> {
-    interface Algorithm<T extends Comparable<T>> {
-        List<Pair<Integer>> diff(List<T> l, List<T> r);
-    }
-
     private Algorithm<T> algorithm;
     private List<Pair<Integer>> commonLineIndexes;
     private Pair<List<Block>> diffBlocksPair;
     private List<T> list1, list2;
-
     public Diff() {
         this.algorithm = getDefaultAlgorithm();
     }
@@ -63,5 +57,9 @@ public class Diff<T extends Comparable<T>> {
 
         diffBlocksPair = new Pair<>(blocks1, blocks2);
         return diffBlocksPair;
+    }
+
+    interface Algorithm<T extends Comparable<T>> {
+        List<Pair<Integer>> diff(List<T> l, List<T> r);
     }
 }

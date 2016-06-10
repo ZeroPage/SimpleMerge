@@ -23,7 +23,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class EditPanel extends VBox implements Initializable{
+public class EditPanel extends VBox implements Initializable {
 
     private EditPanelEventListener eventListener;
     private FileSelector selector;
@@ -37,6 +37,17 @@ public class EditPanel extends VBox implements Initializable{
     private Label pathLabel;
 
     private File currentOpenFile;
+
+    public EditPanel() {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("edit_panel.fxml"));
+        fxmlLoader.setRoot(this);
+        fxmlLoader.setController(this);
+        try {
+            fxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public void updateBlockStyle(Block block, Merger.BlockState blockState) {
         for (int i = block.start(); i < block.end(); i++) {
@@ -84,7 +95,7 @@ public class EditPanel extends VBox implements Initializable{
         load.setDisable(true);
         currentOpenFile = selector.getFile();
         load.setDisable(false);
-        if(currentOpenFile != null){
+        if (currentOpenFile != null) {
             fileName = currentOpenFile.getName();
             pathLabel.setText(currentOpenFile.getPath());
             try {
@@ -99,6 +110,7 @@ public class EditPanel extends VBox implements Initializable{
             emitLoad();
         }
     }
+
     @FXML
     private void onEditButtonClick() {
         textArea.setDisable(false);
@@ -113,41 +125,39 @@ public class EditPanel extends VBox implements Initializable{
         textArea.setEditable(false);
         String content = textArea.getText();
 
-        if(pathLabel.getText().isEmpty()){
+        if (pathLabel.getText().isEmpty()) {
             saveAs(content);
-        }
-        else{
+        } else {
             save(content);
         }
         emitSave();
     }
 
-    private void save(String content){
+    private void save(String content) {
         Path filePath = Paths.get(pathLabel.getText());
         try {
             Files.write(filePath, content.getBytes(Charset.forName("UTF-8")), StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             save.setDisable(true);
             edit.setDisable(false);
         }
     }
 
-    private void saveAs(String content){
+    private void saveAs(String content) {
         File file = selector.saveFile();
-        if(file != null) {
-            try{
+        if (file != null) {
+            try {
                 FileHelper.save(file, content);
                 pathLabel.setText(file.getPath());
-            }catch(IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
-            }finally{
+            } finally {
                 save.setDisable(true);
                 edit.setDisable(false);
             }
-        }
-        else{
+        } else {
             save.setDisable(false);
             edit.setDisable(true);
             textArea.setEditable(true);
@@ -160,17 +170,6 @@ public class EditPanel extends VBox implements Initializable{
 
     public void setFileSelector(FileSelector selector) {
         this.selector = selector;
-    }
-
-    public EditPanel() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("edit_panel.fxml"));
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-        try {
-            fxmlLoader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public String getText() {

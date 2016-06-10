@@ -14,12 +14,10 @@ import java.nio.file.Paths;
 import static org.junit.Assert.assertEquals;
 
 public class FileHelperTest {
-    private Path lorem;
-    private String contents;
-
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
-
+    private Path lorem;
+    private String contents;
     @Rule
     public ExternalResource resource = new ExternalResource() {
         @Override

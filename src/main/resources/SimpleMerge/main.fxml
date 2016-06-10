@@ -2,19 +2,22 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import org.fxmisc.richtext.InlineCssTextArea?>
 <?import SimpleMerge.control.EditPanel?>
-
-<AnchorPane fx:id="root" prefHeight="400" prefWidth="800" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SimpleMerge.Controller">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="root" prefHeight="400" prefWidth="800"
+            xmlns="http://javafx.com/javafx/null" fx:controller="SimpleMerge.Controller">
     <children>
-        <ToolBar prefHeight="40.0" prefWidth="800.0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+        <ToolBar prefHeight="40.0" prefWidth="800.0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+                 AnchorPane.topAnchor="0">
             <items>
-                <Button fx:id="leftMerge" disable="true" mnemonicParsing="false" text="Copy to Left" onAction="#copyToLeft"/>
-                <Button fx:id="compare" disable="true" mnemonicParsing="false" text="Compare" onAction="#compare" />
-                <Button fx:id="rightMerge" disable="true" mnemonicParsing="false" text="Copy to Right" onAction="#copyToRight"/>
+                <Button fx:id="leftMerge" disable="true" mnemonicParsing="false" text="Copy to Left"
+                        onAction="#copyToLeft"/>
+                <Button fx:id="compare" disable="true" mnemonicParsing="false" text="Compare" onAction="#compare"/>
+                <Button fx:id="rightMerge" disable="true" mnemonicParsing="false" text="Copy to Right"
+                        onAction="#copyToRight"/>
             </items>
         </ToolBar>
-        <SplitPane fx:id="splitPane" orientation="HORIZONTAL" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="40">
+        <SplitPane fx:id="splitPane" orientation="HORIZONTAL" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"
+                   AnchorPane.rightAnchor="0" AnchorPane.topAnchor="40">
             <items>
                 <EditPanel fx:id="leftEditPanel"></EditPanel>
                 <EditPanel fx:id="rightEditPanel"></EditPanel>

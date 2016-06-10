@@ -13,6 +13,7 @@ import static org.junit.Assert.assertEquals;
 public class PairTest {
     Pair first, second;
     Boolean result;
+
     public PairTest(Pair first, Pair second, Boolean result) {
         this.first = first;
         this.second = second;
