@@ -59,7 +59,7 @@ public class Merger<T extends Comparable<T>> {
             emitUpdateBlockStyleFirst(nextLine(firstBlocks.get(focusedBlock)), BlockState.IDENTICAL);
         }
         emitUpdateBlockStyleSecond(secondBlocks.get(focusedBlock), BlockState.IDENTICAL);
-        if (isNextLineExist(secondBlocks.get(focusedBlock), firstItems)) {
+        if (isNextLineExist(secondBlocks.get(focusedBlock), secondItems)) {
             emitUpdateBlockStyleSecond(nextLine(secondBlocks.get(focusedBlock)), BlockState.IDENTICAL);
         }
     }
@@ -100,7 +100,7 @@ public class Merger<T extends Comparable<T>> {
                 emitUpdateBlockStyleFirst(nextLine(firstBlocks.get(focusedBlock)), BlockState.FOCUS_ASSISTANT);
             }
             emitUpdateBlockStyleSecond(secondBlocks.get(focusedBlock), BlockState.FOCUSED);
-            if (isNextLineExist(secondBlocks.get(focusedBlock), firstItems)) {
+            if (isNextLineExist(secondBlocks.get(focusedBlock), secondItems)) {
                 emitUpdateBlockStyleSecond(nextLine(secondBlocks.get(focusedBlock)), BlockState.FOCUS_ASSISTANT);
             }
         }
