@@ -204,7 +204,7 @@ public class MainTest {
     }
 
     @Test
-    public void shouldMergeCorrelectly2() {
+    public void shouldMergeCorrectly2() {
         setMockFileSelector("#leftEditPanel", "SimpleMerge/diff/multiline-2-A.txt");
         setMockFileSelector("#rightEditPanel", "SimpleMerge/diff/multiline-2-B.txt");
         fx.clickOn("#leftEditPanel #load");
