@@ -20,13 +20,23 @@ public class Merger<T extends Comparable<T>> {
         this.focusedBlock = 0;
     }
 
+    private boolean isNextLineExist(Block block, List<T> items) {
+        return block.end() < items.size();
+    }
+
+    private Block nextLine(Block block) {
+        return new Block(block.end(), block.end() + 1);
+    }
+
     public void start() {
-        /*
-        emitUpdateItemsFirst(firstItems, new Block(0, firstItems.size() - 1));
-        emitUpdateItemsSecond(firstItems, new Block(0, firstItems.size() - 1));
-        */
         emitUpdateBlockStyleFirst(firstBlocks.get(0), BlockState.FOCUSED);
+        if (isNextLineExist(firstBlocks.get(0), firstItems)) {
+            emitUpdateBlockStyleFirst(nextLine(firstBlocks.get(0)), BlockState.FOCUS_ASSISTANT);
+        }
         emitUpdateBlockStyleSecond(secondBlocks.get(0), BlockState.FOCUSED);
+        if (isNextLineExist(secondBlocks.get(0), secondItems)) {
+            emitUpdateBlockStyleSecond(nextLine(secondBlocks.get(0)), BlockState.FOCUS_ASSISTANT);
+        }
         for (int i = 1; i < firstBlocks.size(); i++) {
             emitUpdateBlockStyleFirst(firstBlocks.get(i), BlockState.DIFF);
             emitUpdateBlockStyleSecond(secondBlocks.get(i), BlockState.DIFF);
@@ -43,9 +53,19 @@ public class Merger<T extends Comparable<T>> {
         // TODO: Not implemented
     }
 
-    public void mergeWithFirstItem() {
-        emitUpdateBlockStyleFirst(firstBlocks.get(focusedBlock), BlockState.IDENTICAL);
+    private void cancelFocus(int blockIndex) {
+         emitUpdateBlockStyleFirst(firstBlocks.get(focusedBlock), BlockState.IDENTICAL);
+        if (isNextLineExist(firstBlocks.get(focusedBlock), firstItems)) {
+            emitUpdateBlockStyleFirst(nextLine(firstBlocks.get(focusedBlock)), BlockState.IDENTICAL);
+        }
         emitUpdateBlockStyleSecond(secondBlocks.get(focusedBlock), BlockState.IDENTICAL);
+        if (isNextLineExist(secondBlocks.get(focusedBlock), firstItems)) {
+            emitUpdateBlockStyleSecond(nextLine(secondBlocks.get(focusedBlock)), BlockState.IDENTICAL);
+        }
+    }
+
+    public void mergeWithFirstItem() {
+        cancelFocus(focusedBlock);
         mergeFocusedItem(
             firstItems,
             secondItems,
@@ -57,8 +77,7 @@ public class Merger<T extends Comparable<T>> {
     }
 
     public void mergeWithSecondItem() {
-        emitUpdateBlockStyleFirst(firstBlocks.get(focusedBlock), BlockState.IDENTICAL);
-        emitUpdateBlockStyleSecond(secondBlocks.get(focusedBlock), BlockState.IDENTICAL);
+        cancelFocus(focusedBlock);
         mergeFocusedItem(
             secondItems,
             firstItems,
@@ -77,7 +96,13 @@ public class Merger<T extends Comparable<T>> {
             emitMergeEnd();
         } else {
             emitUpdateBlockStyleFirst(firstBlocks.get(focusedBlock), BlockState.FOCUSED);
+            if (isNextLineExist(firstBlocks.get(focusedBlock), firstItems)) {
+                emitUpdateBlockStyleFirst(nextLine(firstBlocks.get(focusedBlock)), BlockState.FOCUS_ASSISTANT);
+            }
             emitUpdateBlockStyleSecond(secondBlocks.get(focusedBlock), BlockState.FOCUSED);
+            if (isNextLineExist(secondBlocks.get(focusedBlock), firstItems)) {
+                emitUpdateBlockStyleSecond(nextLine(secondBlocks.get(focusedBlock)), BlockState.FOCUS_ASSISTANT);
+            }
         }
     }
 
@@ -88,6 +113,9 @@ public class Merger<T extends Comparable<T>> {
         }
         Block mergedBlock = new Block(to.get(focusedBlock).start(), to.get(focusedBlock).start() + fromBlockSize);
         eventListener.onUpdateBlockStyle(mergedBlock, BlockState.MERGED);
+        if (isNextLineExist(mergedBlock, to == firstBlocks ? firstItems : secondItems)) {
+            eventListener.onUpdateBlockStyle(nextLine(mergedBlock), BlockState.IDENTICAL);
+        }
         from.remove(focusedBlock);
         to.remove(focusedBlock);
     }
@@ -159,7 +187,7 @@ public class Merger<T extends Comparable<T>> {
     }
 
     public enum BlockState {
-        IDENTICAL, MERGED, DIFF, FOCUSED;
+        IDENTICAL, MERGED, DIFF, FOCUSED, FOCUS_ASSISTANT;
     }
 
     public interface MergeEventListener {

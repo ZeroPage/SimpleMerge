@@ -217,6 +217,8 @@ public class EditPanel extends VBox implements Initializable {
                     return "-fx-background-fill: yellow;";
                 case FOCUSED:
                     return "-fx-background-fill: lightblue;";
+                case FOCUS_ASSISTANT:
+                    return "-fx-background-fill: lavender";
                 default:
                     throw new RuntimeException("Undefined BlockStyle id : " + blockState);
             }
